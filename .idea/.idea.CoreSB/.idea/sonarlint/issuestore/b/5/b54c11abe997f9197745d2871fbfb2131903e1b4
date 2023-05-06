@@ -1,0 +1,8 @@
+
+[csharpsquid:S2971">Drop 'Where' and move the condition into the 'FirstOrDefault'.(çì™
+8csharpsquid:S2933"Make '_context' 'readonly'.(¢òƒÚ
+Zcsharpsquid:S4136†"7All 'SaveIdentity' method overloads should be adjacent.(»¤Äšøÿÿÿÿ
+qcsharpsquid:S1006]"ORemove the default parameter value to match the signature of overridden method.(‚‡Áüÿÿÿÿ
+qcsharpsquid:S1006]"ORemove the default parameter value to match the signature of overridden method.(‚‡Áüÿÿÿÿ
+Jcsharpsquid:S1481‰"'Remove the unused local variable 'set'.(ÓŒ´¿üÿÿÿÿ
+Icsharpsquid:S1481‹"&Remove the unused local variable 't_'.(ïı¥îşÿÿÿÿ
