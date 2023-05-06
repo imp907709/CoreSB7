@@ -1,6 +1,7 @@
 ﻿using CoreSBShared.Registrations;
 using CoreSBShared.Universal.Infrastructure;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
+using CoreSBShared.Universal.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
