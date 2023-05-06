@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreSBShared.Universal.Infrastructure
 {
-
     public class StoreEF : IEFStore
     {
         private readonly DbContext _dbContext;
@@ -22,12 +22,12 @@ namespace CoreSBShared.Universal.Infrastructure
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
-        
+
         public async Task<T?> GetByIdAsync<T>(int id) where T : class, IEntityIntId
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
-        
+
 
         public async Task<T> AddAsync<T>(T item) where T : class
         {
