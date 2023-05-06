@@ -11,7 +11,8 @@ builder.DefaultRegistrations();
 
 builder.RegisterConnections();
 
-builder.RegisterEFContexts();
+builder.RegisterContexts();
+builder.RegisterContextsBL();
 
 var app = builder.Build();
 

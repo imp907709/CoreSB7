@@ -15,13 +15,14 @@
     public class MongoConnection
     {
         public static string SectionName => RegistrationStrings.MongoConnetionsString;
-        public static string ConnectionString { get; set; }
+        public string ConnectionString { get; set; }
+        public string DatabaseName { get; set; }
     }
     
     public class ElasticConenction
     {
         public static string SectionName => RegistrationStrings.ElasticSectionName;
-        public static string ConnectionString { get; set; }
+        public string ConnectionString { get; set; }
     }
     
     

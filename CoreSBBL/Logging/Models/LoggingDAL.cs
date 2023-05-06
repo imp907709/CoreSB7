@@ -1,4 +1,6 @@
-﻿namespace CoreSBShared.Universal.Models
+﻿using CoreSBShared.Universal.Infrastructure.Models;
+
+namespace CoreSBShared.Universal.Models
 {
     public class LoggingDAL : EntityIntId
     {
