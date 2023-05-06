@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreSBShared.Universal.Interfaces
+namespace CoreSBShared.Universal.Infrastructure.Interfaces
 {
     public interface ICreated
     {

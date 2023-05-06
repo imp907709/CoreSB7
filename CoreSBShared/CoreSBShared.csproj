@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Properties\Domain" />
-    <Folder Include="Universal\Infrastructure" />
   </ItemGroup>
 
 </Project>
