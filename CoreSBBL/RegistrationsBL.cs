@@ -3,6 +3,7 @@ using CoreSBShared.Registrations;
 using CoreSBShared.Universal.Infrastructure;
 using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.EF.Infrastructure.Mongo;
+using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using CoreSBShared.Universal.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,8 @@ namespace CoreSBBL
 
             builder.Services.AddScoped<IEFStore,EFStore>();
             builder.Services.AddScoped<IMongoStore, MongoStore>();
+            builder.Services.AddScoped<IElasticStore, ElasticStoreNest>();
+            
             
             builder.Services.AddScoped<ILoggingEFStore,LoggingEFStore>();
             builder.Services.AddScoped<ILoggingMongoStore>(s=> 

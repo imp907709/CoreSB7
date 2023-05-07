@@ -12,4 +12,9 @@ namespace CoreSBShared.Universal.Models
     {
         public string Message { get; set; }
     }
+    
+    public class LoggingElastic : EntityElastic
+    {
+        public string Message { get; set; }
+    }
 }

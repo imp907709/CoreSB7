@@ -2,7 +2,7 @@
 # SOLID, Vertical slice + DDD + layered/onion/clean
 # KISS DRY
 
-## Pckages to build core:
+## Packages to build core:
 -------------------------------------------------------
 
 ```
@@ -11,15 +11,19 @@ dotnet add package Microsoft.Extensions.DependencyInjection
 dotnet add package Autofac.Extensions.DependencyInjection
 
 dotnet add package Microsoft.EntityFrameworkCore
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer 
+dotnet add package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
+
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL 
-dotnet add package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 
 
 dotnet add package MongoDB.Bson 
 dotnet add package MongoDB.Driver 
 dotnet add package MongoDB.Driver.Core 
 
+dotnet add package NEST 
+
 dotnet add package Elastic.Clients.Elasticsearch
+dotnet add package Elasticsearch.Net 
 
 ```
 
