@@ -48,7 +48,11 @@
           "dependencies": {
             "Elastic.Clients.Elasticsearch": {
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.1.1, )"
+            },
+            "Elasticsearch.Net": {
+              "target": "Package",
+              "version": "[7.17.5, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
@@ -73,6 +77,10 @@
             "MongoDB.Driver.Core": {
               "target": "Package",
               "version": "[2.19.0, )"
+            },
+            "NEST": {
+              "target": "Package",
+              "version": "[7.17.5, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
