@@ -11,10 +11,10 @@ namespace CoreSBShared.Universal.Infrastructure.EF
     {
         private IEFStore _store { get; set; }
         private IMongoStore _mongoStore { get; set; }
-        private IElasticStore _elasticStore { get; set; }
+        private IElasticStoreNest _elasticStore { get; set; }
         
         
-        public LoggingService(ILoggingEFStore store, ILoggingMongoStore mongoStore, IElasticStore elasticStore)
+        public LoggingService(ILoggingEFStore store, ILoggingMongoStore mongoStore, IElasticStoreNest elasticStore)
         {
             _store = store;
             _mongoStore = mongoStore;
@@ -33,13 +33,12 @@ namespace CoreSBShared.Universal.Infrastructure.EF
             
             var resp = await _store.AddAsync(_item);
             var resp2 = await _mongoStore.AddAsync(_item);
-
+            
             LoggingElastic call = new LoggingElastic(){Message = _item.Message};
-            LoggingElastic resp3 = new();
             try
             {
                 var res = _elasticStore.CreateindexIfNotExists<LoggingElastic>("logging");
-                resp3 = await _elasticStore.AddAsync(call);
+                var respelk = await _elasticStore.AddAsyncElk(call);
             }
             catch (Exception e)
             {
@@ -47,7 +46,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF
                 throw;
             }
             
-            return new LoggingBL() {Message = resp.Message + "  " + resp2.Message + "  " + resp3.Message};
+            return new LoggingBL() {Message = resp.Message + "  " + resp2.Message + "  " + call.Message};
         }
     }
 }

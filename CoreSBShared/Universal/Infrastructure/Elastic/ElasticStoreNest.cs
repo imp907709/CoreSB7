@@ -14,7 +14,7 @@ using MongoDB.Bson.Serialization;
 
 namespace CoreSBShared.Universal.Infrastructure.Elastic
 {
-       public class ElasticStoreNest : IElasticStore, IElasticStoreNest
+       public class ElasticStoreNest : IElasticStoreNest
        {
         private readonly ElasticClient _client;
         private string _indexName { get; set; }

@@ -31,9 +31,10 @@ namespace CoreSBBL
                 options.UseSqlServer(ConnectionsRegister.Connections.MSSQLLOCAL));
             builder.Services.AddScoped<DbContext, LoggingContext>();
 
+            
             builder.Services.AddScoped<IEFStore,EFStore>();
             builder.Services.AddScoped<IMongoStore, MongoStore>();
-            builder.Services.AddScoped<IElasticStore, ElasticStoreNest>();
+            builder.Services.AddScoped<IElasticStoreNest, ElasticStoreNest>();
             
             
             builder.Services.AddScoped<ILoggingEFStore,LoggingEFStore>();
