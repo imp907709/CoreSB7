@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.Json;
 using System.Threading.Tasks;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
-using CoreSBShared.Universal.Infrastructure.Mongo;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
-namespace CoreSBShared.Universal.Infrastructure
+namespace CoreSBShared.Universal.Infrastructure.Mongo
 {
     public class MongoStore : IMongoStore
     {
@@ -22,11 +20,18 @@ namespace CoreSBShared.Universal.Infrastructure
         internal MongoClientSettings _settings;
         internal string _dbName;
         
+        /// <summary>
+        /// Empty constructors are required for DI
+        /// </summary>
+        public MongoStore()
+        {
+        }
+        
         public MongoStore(IMongoClient client, string databaseName)
         {
             SetWorkingDatabase(databaseName);
         }
-
+        
         public MongoStore(string connString)
         {
             SetClient(connString);
@@ -102,7 +107,16 @@ namespace CoreSBShared.Universal.Infrastructure
             return result.DeletedCount > 0;
         }
         
-
+        public void CreateDB()
+        {
+            _client.GetDatabase(_dbName);
+        }
+        
+        public void DropDB()
+        {
+            _client.DropDatabase(_dbName);
+        }
+        
         static FilterDefinition<T> BuildFilterDefinition<T>(Expression<Func<T, bool>> expression)
         {
             return new ExpressionFilterDefinition<T>(expression);

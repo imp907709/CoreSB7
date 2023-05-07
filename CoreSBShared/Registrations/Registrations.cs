@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CoreSBShared.Universal.Infrastructure;
+using CoreSBShared.Universal.Infrastructure.EF;
+using CoreSBShared.Universal.Infrastructure.Mongo;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +34,36 @@ namespace CoreSBShared.Registrations
             builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
         }
 
+        public static void RegisterContexts(this WebApplicationBuilder builder)
+        {
+            RegisterEFContexts(builder);
+            RegisterMongoContexts(builder);
+            RegisterElasticContexts(builder);
+        }
+
+        /// <summary>
+        /// Register db contexts
+        /// </summary>
+        internal static void RegisterEFContexts(this WebApplicationBuilder builder)
+        {
+            
+            builder.Services.AddScoped<IEFStore,EFStore>();
+        }
+        
+        internal static void RegisterMongoContexts(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IMongoStore>(s=> 
+                new MongoStore(ConnectionsRegister.MongoConnection.ConnectionString, 
+                    ConnectionsRegister.MongoConnection.DatabaseName));
+        }
+        
+        /// Register db contexts
+        /// </summary>
+        internal static void RegisterElasticContexts(this WebApplicationBuilder builder)
+        {
+
+        }
+        
         public static void Registration(this WebApplication app)
         {
             // Configure the HTTP request pipeline.

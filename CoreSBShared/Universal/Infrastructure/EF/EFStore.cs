@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreSBShared.Universal.Infrastructure
+namespace CoreSBShared.Universal.Infrastructure.EF
 {
-    public class StoreEF : IEFStore
+    public class EFStore : IEFStore
     {
         private readonly DbContext _dbContext;
 
-        public StoreEF(DbContext dbContext)
+        public EFStore(DbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -67,6 +66,16 @@ namespace CoreSBShared.Universal.Infrastructure
             _dbContext.Set<T>().RemoveRange(items);
             await _dbContext.SaveChangesAsync();
             return items;
+        }
+
+        public void CreateDB()
+        {
+            _dbContext.Database.EnsureCreated();
+        }
+        
+        public void DropDB()
+        {
+            _dbContext.Database.EnsureDeleted();
         }
     }
 }

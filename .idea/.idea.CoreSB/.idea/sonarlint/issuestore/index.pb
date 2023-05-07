@@ -1,6 +1,4 @@
 
-M
-CoreSBServer/appsettings.json,3\4\34a47f59d703bfa41508784e25f114117a46bf03
 O
 CoreSBServer/WeatherForecast.cs,4\0\404caf02223446029c90fb47446adaa1b1f5d984
 U
