@@ -3,12 +3,7 @@ using CoreSBShared.Universal.Infrastructure.Models;
 
 namespace CoreSBShared.Universal.Models
 {
-    public class LoggingEF : EntityEF
-    {
-        public string Message { get; set; }
-    }
-    
-    public class LoggingMongo : EntityMongo
+    public class LoggingBL : EntityEF
     {
         public string Message { get; set; }
     }

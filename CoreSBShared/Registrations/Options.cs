@@ -8,13 +8,14 @@
         public static string SectionName => RegistrationStrings.ConnectionsSectionName;
 
         public string MSSQL { get; set; }
+        public string MSSQLLOCAL { get; set; }
         public string DOCKERMSSQL { get; set; }
         public string AZUREMSSQL { get; set; }
     }
 
     public class MongoConnection
     {
-        public static string SectionName => RegistrationStrings.MongoConnetionsString;
+        public static string SectionName => RegistrationStrings.MongoSectionName;
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
     }

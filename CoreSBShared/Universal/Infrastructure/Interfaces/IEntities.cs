@@ -8,8 +8,16 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
         public TKey Id { get; set; }
     }
 
+    public interface IEntityEFInt
+    {
+        public int EfId { get; set; }
+    }
+    public interface IEntityMongo
+    {
+        public ObjectId MongoId { get; set; }
+    }
 
-    
+
     public interface IEntityIntId : IEntity<int>
     {
     }
@@ -25,5 +33,12 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
     //mongo specific
     public interface IEntityObjectId : IEntity<ObjectId>
     {
+    }
+    
+    public interface ICreated
+    {
+        public string CreatedBy { get; set; }
+        public DateTime? Created { get; set; }
+        public DateTime? Modified { get; set; }
     }
 }
