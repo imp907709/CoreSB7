@@ -24,7 +24,6 @@ dotnet add package NEST
 
 dotnet add package Elastic.Clients.Elasticsearch
 dotnet add package Elasticsearch.Net 
-
 ```
 
 
