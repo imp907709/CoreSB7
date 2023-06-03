@@ -6,20 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoreSBServer.Controllers
 {
-    public class TestController : ControllerBase
+    public class LoggingController : ControllerBase
     {
         private ILoggingService _loggingService;
-
-        public TestController(ILoggingService loggingService)
+        public LoggingController(ILoggingService loggingService)
         {
             _loggingService = loggingService;
         }
 
         [HttpGet]
-        [Route("Test")]
-        public async Task<ActionResult> Test()
+        [Route("AddToAll")]
+        public async Task<ActionResult> AddToAll(LoggingAPI item)
         {
-            var resp = await _loggingService.AddToAll(new LoggingBL() {Message = "test"});
+            var resp = await _loggingService.AddToAll(new LoggingBL(){Message = "test"});
 
             return Ok(resp);
         }

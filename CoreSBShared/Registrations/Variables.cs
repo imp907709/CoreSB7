@@ -21,4 +21,11 @@
         public static string ElasticSectionName => "Elastic";
         public static string ElasticConnetionsString => "ConnectionString";
     }
+
+    public class DefaultConfigurationValues
+    {
+        public static string DefaultElasticConnStr => "http://localhost:9200";
+        public static string DefaultElasticIndex => "logging";
+    }
+
 }
