@@ -21,7 +21,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
         private readonly ElasticClient _client;
         private string _indexName { get; set; }
         
-        public ElasticStoreNest(string connStr, string defaultIndex)
+        public ElasticStoreNest(string? connStr, string? defaultIndex)
         {
             var pool = string.IsNullOrEmpty(connStr) 
                 ?  new SingleNodeConnectionPool(new Uri(DefaultConfigurationValues.DefaultElasticConnStr))

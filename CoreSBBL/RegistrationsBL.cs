@@ -28,12 +28,12 @@ namespace CoreSBBL
         /// </summary>
         internal static void RegisterEFContexts(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<LoggingContext>(options =>
+            builder.Services.AddDbContext<LogsContext>(options =>
                 //options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
                 options.UseSqlServer(ConnectionsRegister.Connections.MSSQLLOCAL));
-            builder.Services.AddScoped<DbContext, LoggingContext>();
+            builder.Services.AddScoped<DbContext, LogsContext>();
             
-            builder.Services.AddScoped<ILoggingEFStore, LoggingEFStore>();
+            builder.Services.AddScoped<ILogsEFStore, LogsEFStore>();
             
             builder.Services.AddScoped<ILoggingMongoStore>(s=> 
                 new LoggingMongoStore(ConnectionsRegister.MongoConnection.ConnectionString, 

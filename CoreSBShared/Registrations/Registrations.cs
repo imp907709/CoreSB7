@@ -25,7 +25,7 @@ namespace CoreSBShared.Registrations
             builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
         }
         
-        public static void DefaultRegistrations(this WebApplicationBuilder builder)
+        public static void FrameworkRegistrations(this WebApplicationBuilder builder)
         {
             // Add services to the container.
 
@@ -64,7 +64,10 @@ namespace CoreSBShared.Registrations
         /// </summary>
         internal static void RegisterElasticContexts(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IElasticStoreNest, ElasticStoreNest>();
+            builder.Services.AddScoped<IElasticStoreNest>(p =>
+            {
+                return new ElasticStoreNest(null, null);
+            });
         }
         
         public static void Registration(this WebApplication app)

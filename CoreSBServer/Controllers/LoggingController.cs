@@ -14,11 +14,11 @@ namespace CoreSBServer.Controllers
             _loggingService = loggingService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("AddToAll")]
-        public async Task<ActionResult> AddToAll(LoggingAPI item)
+        public async Task<ActionResult> AddToAll(LogsAPI item)
         {
-            var resp = await _loggingService.AddToAll(new LoggingBL(){Message = "test"});
+            var resp = await _loggingService.AddToAll(new LogsBL(){Message = item.Message});
 
             return Ok(resp);
         }

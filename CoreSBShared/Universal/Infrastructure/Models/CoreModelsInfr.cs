@@ -17,7 +17,7 @@ namespace CoreSBShared.Universal.Infrastructure.Models
         public int? CreatedById { get; set; } = null;
         
         // Not only user with Id, system, unknown and others is possible
-        public string CreatedBy { get; set; } = null;
+        public string? CreatedBy { get; set; } = null;
         
         public DateTime? Created { get; set; } = DateTime.Now;
         public DateTime? Modified { get; set; } = null;
@@ -45,17 +45,13 @@ namespace CoreSBShared.Universal.Infrastructure.Models
         public string Id { get; set; }
     }
     
-// Enum replacement
+    // Enum replacement
     public class Tag : EntityEF
     {
-        public IList<Tag> Tags { get; set; }
-
-        public Tag Get(int idx) => this.Tags?.FirstOrDefault(s => s?.index == idx);
-        public Tag Get(string txt) => this.Tags?.FirstOrDefault(s => s?.Text == txt);
-        
         public int index { get; set; }
         public string Text { get; set; }
     }
+
 
     /// <summary>
     /// Bl and API layer specific models

@@ -7,13 +7,12 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.DefaultRegistrations();
+builder.FrameworkRegistrations();
 
 builder.RegisterConnections();
-
+builder.RegisterContexts();
 
 builder.RegisterContextsBL();
-builder.RegisterContexts();
 builder.RegisterServicesBL();
 
 var app = builder.Build();

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CoreSBShared.Universal.Infrastructure.Models;
+using CoreSBBL.Logging;
 
 /// <summary>
 /// Logging Core models, layers
@@ -11,53 +13,67 @@ namespace CoreSBBL.Logging.Models
     /// (logging not assumed to have some differences by layers,
     /// cause it is project wide ProofOfWork model with no real intense business domain behaviour )
     /// </summary>
-    public class LoggingCore : EntityEF
+    public class LogsCore : EntityEF
     {
         // The log text itself
         public string? Message { get; set; }
 
         // To distinguish logging by types
-        public LoggingLabel? Label { get; set; } = new ();
+        public LogsLabelDALEF? Label { get; set; } = new ();
 
         // To add more granularity to search
         // further string tagging for elastic and mongo 
-        public LoggingTag? Tags { get; set; } = new ();
+        public virtual ICollection<LogsTagDALEF> Tags { get; set; } = new LogsTagEnumDALEF().Tags;
     }
 
     // Labels assumed to work with constants
-    public class LoggingLabel : EntityEF
+    public class LogsLabelDALEF : EntityEF
     {
         public static string Text { get; set; } = DefaultModelValues.Logging.LoggingLabelDefault;
     }
 
-    // Enum replacement
-    public class LoggingTag : Tag
+    public class LogsTagDALEF : Tag
     {
-        public new IList<Tag> Tags { get; set; } = new List<Tag>()
+        public ICollection<LogsDALEF> Loggings { get; set; }
+        
+    }
+    
+    // Enum replacement
+    public class LogsTagEnumDALEF
+    {
+        public IList<LogsTagDALEF> Tags { get; set; } = new List<LogsTagDALEF>()
         {
             DefaultModelValues.LoggingTags.Default, DefaultModelValues.LoggingTags.System,
         };
+        
+        public virtual LogsTagDALEF ToGet(int idx) => this.Tags?.FirstOrDefault(s => s?.index == idx);
+        public virtual LogsTagDALEF ToGet(string txt) => this.Tags?.FirstOrDefault(s => s?.Text == txt);
+
     }
 
-    public class LoggingDAL : LoggingCore
+    public class LogsDALEF : LogsCore
+    {
+        public int? LabelId { get; set; }
+        
+        public override ICollection<LogsTagDALEF> Tags { get; set; } 
+    }
+
+    public class LogsBL : LogsCore
     {
     }
 
-    public class LoggingBL : LoggingCore
+    public class LogsAPI
     {
-    }
-
-    public class LoggingAPI : LoggingCore
-    {
+        public string Message { get; set; } = DefaultModelValues.Logging.MessageEmpty;
     }
     
     
-    public class LoggingMongo : EntityMongo
+    public class LogsMongo : EntityMongo
     {
         public string Message { get; set; }
     }
     
-    public class LoggingElastic : EntityElastic
+    public class LogsElastic : EntityElastic
     {
         public string Message { get; set; }
     }

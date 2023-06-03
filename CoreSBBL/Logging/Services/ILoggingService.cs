@@ -5,6 +5,6 @@ namespace CoreSBBL.Logging.Services
 {
     public interface ILoggingService
     {
-        Task<LoggingBL> AddToAll(LoggingBL item);
+        Task<LogsBL> AddToAll(LogsBL item);
     }
 }
