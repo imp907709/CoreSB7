@@ -1,7 +1,7 @@
-﻿using CoreSBShared.Universal.Models;
+﻿using CoreSBBL.Logging.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreSBShared.Universal.Infrastructure.EF
+namespace CoreSBBL.Logging.Infrastructure.EF
 {
     public class LoggingContext : DbContext
     {
@@ -9,13 +9,13 @@ namespace CoreSBShared.Universal.Infrastructure.EF
         {
         }
 
-        public DbSet<LoggingEF> Courses { get; set; }
+        public DbSet<LoggingDAL> Courses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LoggingEF>().ToTable("Logging");
-            modelBuilder.Entity<LoggingEF>().Property(p=> p.EfId).ValueGeneratedOnAdd();
-            modelBuilder.Entity<LoggingEF>().HasKey(p => p.EfId).HasName("id");
+            modelBuilder.Entity<LoggingDAL>().ToTable("Logging");
+            modelBuilder.Entity<LoggingDAL>().Property(p=> p.EfId).ValueGeneratedOnAdd();
+            modelBuilder.Entity<LoggingDAL>().HasKey(p => p.EfId).HasName("id");
         }
     }
 }

@@ -7,10 +7,10 @@
     {
         public static string SectionName => RegistrationStrings.ConnectionsSectionName;
 
-        public string MSSQL { get; set; }
-        public string MSSQLLOCAL { get; set; }
-        public string DOCKERMSSQL { get; set; }
-        public string AZUREMSSQL { get; set; }
+        public string? MSSQL { get; set; }
+        public string? MSSQLLOCAL { get; set; }
+        public string? DOCKERMSSQL { get; set; }
+        public string? AZUREMSSQL { get; set; }
     }
 
     public class MongoConnection
@@ -23,7 +23,7 @@
     public class ElasticConenction
     {
         public static string SectionName => RegistrationStrings.ElasticSectionName;
-        public string ConnectionString { get; set; }
+        public string? ConnectionString { get; set; }
     }
     
     

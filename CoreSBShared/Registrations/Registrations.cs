@@ -1,5 +1,6 @@
 ﻿using CoreSBShared.Universal.Infrastructure;
 using CoreSBShared.Universal.Infrastructure.EF;
+using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,16 @@ namespace CoreSBShared.Registrations
     /// </summary>
     public static class Registrations
     {
+        /// <summary>
+        /// Register connections from app settings to register with option pattern
+        /// </summary>
+        public static void RegisterConnections(this WebApplicationBuilder builder)
+        {
+            builder.Configuration.GetSection(Connections.SectionName).Bind(ConnectionsRegister.Connections);
+            builder.Configuration.GetSection(MongoConnection.SectionName).Bind(ConnectionsRegister.MongoConnection);
+            builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
+        }
+        
         public static void DefaultRegistrations(this WebApplicationBuilder builder)
         {
             // Add services to the container.
@@ -24,15 +35,7 @@ namespace CoreSBShared.Registrations
             builder.Services.AddSwaggerGen();
         }
 
-        /// <summary>
-        /// Register connections from app settings to register with option pattern
-        /// </summary>
-        public static void RegisterConnections(this WebApplicationBuilder builder)
-        {
-            builder.Configuration.GetSection(Connections.SectionName).Bind(ConnectionsRegister.Connections);
-            builder.Configuration.GetSection(MongoConnection.SectionName).Bind(ConnectionsRegister.MongoConnection);
-            builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
-        }
+        
 
         public static void RegisterContexts(this WebApplicationBuilder builder)
         {
@@ -61,7 +64,7 @@ namespace CoreSBShared.Registrations
         /// </summary>
         internal static void RegisterElasticContexts(this WebApplicationBuilder builder)
         {
-
+            builder.Services.AddScoped<IElasticStoreNest, ElasticStoreNest>();
         }
         
         public static void Registration(this WebApplication app)

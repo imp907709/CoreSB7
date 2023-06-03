@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CoreSBShared.Universal.Infrastructure.EF;
+using Microsoft.EntityFrameworkCore;
 
-namespace CoreSBShared.Universal.Infrastructure.EF
+namespace CoreSBBL.Logging.Infrastructure.EF
 {
     public class LoggingEFStore : EFStore, ILoggingEFStore 
     {

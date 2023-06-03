@@ -12,20 +12,29 @@ using Nest;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 
+using CoreSBShared.Registrations;
+
 namespace CoreSBShared.Universal.Infrastructure.Elastic
 {
        public class ElasticStoreNest : IElasticStoreNest
        {
         private readonly ElasticClient _client;
         private string _indexName { get; set; }
-
-        public ElasticStoreNest()
+        
+        public ElasticStoreNest(string connStr, string defaultIndex)
         {
-            var pool = new SingleNodeConnectionPool(new Uri("http://localhost:9200"));
-            var connSettings = new Nest.ConnectionSettings(pool).DefaultIndex("logging");
+            var pool = string.IsNullOrEmpty(connStr) 
+                ?  new SingleNodeConnectionPool(new Uri(DefaultConfigurationValues.DefaultElasticConnStr))
+                :  new SingleNodeConnectionPool(new Uri(connStr));
+
+            var idxName =  string.IsNullOrEmpty(defaultIndex) 
+                ? DefaultConfigurationValues.DefaultElasticIndex
+                : defaultIndex;
+
+            var connSettings = new Nest.ConnectionSettings(pool).DefaultIndex(idxName);
+
             _client = new ElasticClient(connSettings);
-            
-            SetIndex("logging");
+            SetIndex(idxName);
         }
 
         public void SetIndex(string indexName)

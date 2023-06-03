@@ -1,8 +1,10 @@
-﻿using CoreSBBL.Logging.Infrastructure.Mongo;
+﻿using CoreSBBL.Logging;
+using CoreSBBL.Logging.Infrastructure.EF;
+using CoreSBBL.Logging.Infrastructure.Mongo;
+using CoreSBBL.Logging.Services;
 using CoreSBShared.Registrations;
 using CoreSBShared.Universal.Infrastructure;
 using CoreSBShared.Universal.Infrastructure.EF;
-using CoreSBShared.Universal.Infrastructure.EF.Infrastructure.Mongo;
 using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using CoreSBShared.Universal.Infrastructure.Mongo;
@@ -30,14 +32,9 @@ namespace CoreSBBL
                 //options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
                 options.UseSqlServer(ConnectionsRegister.Connections.MSSQLLOCAL));
             builder.Services.AddScoped<DbContext, LoggingContext>();
-
             
-            builder.Services.AddScoped<IEFStore,EFStore>();
-            builder.Services.AddScoped<IMongoStore, MongoStore>();
-            builder.Services.AddScoped<IElasticStoreNest, ElasticStoreNest>();
+            builder.Services.AddScoped<ILoggingEFStore, LoggingEFStore>();
             
-            
-            builder.Services.AddScoped<ILoggingEFStore,LoggingEFStore>();
             builder.Services.AddScoped<ILoggingMongoStore>(s=> 
                 new LoggingMongoStore(ConnectionsRegister.MongoConnection.ConnectionString, 
                     ConnectionsRegister.MongoConnection.DatabaseName));

@@ -1,10 +1,10 @@
 
-O
-CoreSBServer/WeatherForecast.cs,4\0\404caf02223446029c90fb47446adaa1b1f5d984
-U
-%CoreSBShared/Domain/EF/IRepository.cs,a\d\ad331a30f2e5ea3416e103c7c22e032e39b54109
-V
-&CoreSBShared/Domain/EF/RepositoryEF.cs,b\5\b54c11abe997f9197745d2871fbfb2131903e1b4
 :
 
 CoreSB.sln,0\1\016ac181b9d152cd35088020fc6d18614bc200a1
+e
+5CoreSBBL/Logging/Infrastructure/EF/ILoggingEFStore.cs,b\9\b99b5318e2116c4990f5aba301bce94623c18de1
+k
+;CoreSBBL/Logging/Infrastructure/Mongo/ILoggingMongoStore.cs,5\c\5c58a257beac775397c1b970135690f8e3f71d48
+j
+:CoreSBBL/Logging/Infrastructure/Mongo/LoggingStoreMongo.cs,5\5\552b31541733e1676184b2ea32081910e713f1a0

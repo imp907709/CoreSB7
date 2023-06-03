@@ -1,6 +1,6 @@
 ﻿using CoreSBShared.Universal.Infrastructure.Mongo;
 
-namespace CoreSBShared.Universal.Infrastructure.EF.Infrastructure.Mongo
+namespace CoreSBBL.Logging.Infrastructure.Mongo
 {
     public interface ILoggingMongoStore : IMongoStore
     {
