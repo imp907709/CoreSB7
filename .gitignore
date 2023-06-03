@@ -24,4 +24,3 @@ bin/
 */node_modules
 *appsettings.json
 .vs/
-.idea
