@@ -31,8 +31,8 @@ namespace CoreSBBL.Logging
         /// </summary>
         public class LoggingTags
         {
-            public static LoggingTag Default => new LoggingTag() {index = 1, Text = Logging.LoggingLabelDefault};
-            public static LoggingTag System => new LoggingTag() {index = 2, Text = Logging.LoggingSystemTag};
+            public static LogsTagDALEF Default => new LogsTagDALEF() {index = 1, Text = Logging.LoggingLabelDefault};
+            public static LogsTagDALEF System => new LogsTagDALEF() {index = 2, Text = Logging.LoggingSystemTag};
         }
     }
 }

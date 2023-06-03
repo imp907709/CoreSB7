@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreSBBL.Logging.Infrastructure.EF
 {
-    public class LoggingEFStore : EFStore, ILoggingEFStore 
+    public class LogsEFStore : EFStore, ILogsEFStore 
     {
-        public LoggingEFStore(DbContext dbContext) : base(dbContext)
+        public LogsEFStore(DbContext dbContext) : base(dbContext)
         {
         }
     }

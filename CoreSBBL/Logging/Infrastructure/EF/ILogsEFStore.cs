@@ -2,7 +2,7 @@
 
 namespace CoreSBBL.Logging.Infrastructure.EF
 { 
-    public interface ILoggingEFStore : IEFStore
+    public interface ILogsEFStore : IEFStore
     {
         
     }
