@@ -16,12 +16,10 @@ namespace CoreSBServer.Controllers
         }
 
         [HttpGet]
-        [Route("Test")]
+        [Route("test")]
         public async Task<ActionResult> Test()
         {
-            var resp = await _loggingService.AddToAll(new LogsBL() {Message = "test"});
-
-            return Ok(resp);
+            return Ok("up and running");
         }
     }
 }

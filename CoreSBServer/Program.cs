@@ -4,6 +4,7 @@ using CoreSBShared.Universal.Checkers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,5 +19,9 @@ builder.RegisterServicesBL();
 var app = builder.Build();
 
 app.Registration();
+
+// Access the logger from the application services
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Application started.");
 
 app.Run();

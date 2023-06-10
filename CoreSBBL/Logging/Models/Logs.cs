@@ -13,10 +13,12 @@ namespace CoreSBBL.Logging.Models
     /// (logging not assumed to have some differences by layers,
     /// cause it is project wide ProofOfWork model with no real intense business domain behaviour )
     /// </summary>
-    public class LogsCore : EntityEF
+    public class LogsDALEFCore : EFCore
     {
         // The log text itself
         public string? Message { get; set; }
+        
+        public int? LabelId { get; set; }
 
         // To distinguish logging by types
         public LogsLabelDALEF? Label { get; set; } = new ();
@@ -27,12 +29,12 @@ namespace CoreSBBL.Logging.Models
     }
 
     // Labels assumed to work with constants
-    public class LogsLabelDALEF : EntityEF
+    public class LogsLabelDALEF : EFCore
     {
         public static string Text { get; set; } = DefaultModelValues.Logging.LoggingLabelDefault;
     }
 
-    public class LogsTagDALEF : Tag
+    public class LogsTagDALEF : TagEF
     {
         public ICollection<LogsDALEF> Loggings { get; set; }
         
@@ -51,14 +53,12 @@ namespace CoreSBBL.Logging.Models
 
     }
 
-    public class LogsDALEF : LogsCore
+    public class LogsDALEF : LogsDALEFCore
     {
-        public int? LabelId { get; set; }
-        
         public override ICollection<LogsTagDALEF> Tags { get; set; } 
     }
 
-    public class LogsBL : LogsCore
+    public class LogsBL : LogsDALEFCore
     {
     }
 
@@ -68,12 +68,12 @@ namespace CoreSBBL.Logging.Models
     }
     
     
-    public class LogsMongo : EntityMongo
+    public class LogsMongo : MongoCore
     {
         public string Message { get; set; }
     }
     
-    public class LogsElastic : EntityElastic
+    public class LogsElastic : ElasticCore
     {
         public string Message { get; set; }
     }

@@ -8,10 +8,10 @@ using Nest;
 namespace CoreSBShared.Universal.Infrastructure.Models
 {
     /// <summary>
-    /// Created modified date time traking 
+    /// Created modified date time tracking 
     /// Core class, shared by all layers and models
     /// </summary>
-    public class CreatedCL : ICreated
+    public class CreatedCore : ICreatedCore
     {
         // If created with some Id entity - user, person ...
         public int? CreatedById { get; set; } = null;
@@ -29,39 +29,38 @@ namespace CoreSBShared.Universal.Infrastructure.Models
     /// 
     /// Can be added to mongo to, but default object id created
     /// </summary>
-    public class EntityEF : CreatedCL, IEntityEFInt
+    public class EFCore : CreatedCore, IEntityEFInt
     {
         public int EfId { get; set; }
     }
 
-    public class EntityMongo : CreatedCL, IEntityMongo
+    public class MongoCore : CreatedCore, IEntityMongo
     {
         public ObjectId MongoId { get; set; }
     }
 
     [ElasticsearchType(IdProperty = "Id")]
-    public class EntityElastic : IEntityStringId
+    public class ElasticCore : IEntityStringId
     {
         public string Id { get; set; }
     }
-    
+
     // Enum replacement
-    public class Tag : EntityEF
+    public class TagEF : EFCore
     {
         public int index { get; set; }
         public string Text { get; set; }
     }
-
-
+    
     /// <summary>
     /// Bl and API layer specific models
     /// </summary>
-    public class CoreBL : EntityEF
+    public class CoreBL : EFCore
     {
 
     }
 
-    public class CoreAPI : EntityEF
+    public class CoreAPI : EFCore
     {
         
     }

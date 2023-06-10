@@ -78,7 +78,8 @@ namespace CoreSBShared.Universal.Infrastructure.Mongo
             return items;
         }
 
-        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) where T : class
+        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) 
+            where T : class, IEntityObjectId
         {
             var items = await GetCollection<T>().Find(expression).ToListAsync();
             return items;
