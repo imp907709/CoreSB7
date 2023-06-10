@@ -42,7 +42,8 @@ namespace CoreSBShared.Universal.Infrastructure.EF
             return items;
         }
 
-        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) where T : class
+        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) 
+            where T : class, IEntityIntId
         {
             return await _dbContext.Set<T>().Where(expression).ToListAsync();
         }

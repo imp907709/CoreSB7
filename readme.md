@@ -5,7 +5,7 @@
 
 ```
 
-//inittial 
+//initial 
 dotnet ef migrations add "Initial" --project C:\files\git\pets\CoreSB_7\CoreSBBL\CoreSBBL.csproj --startup-project C:\files\git\pets\CoreSB_7\CoreSBServer\CoreSBServer.csproj --verbose
 
 //update

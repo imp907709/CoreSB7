@@ -31,16 +31,30 @@ dotnet add package Elasticsearch.Net
 -------------------------------------------------------
 
 ```
+#dockerfile
 
+#service image build and start
+    docker stop coresb7
+    docker rm coresb7
+    docker rmi coresb7
+    
+    //rebuild  image
+    docker build -t coresb7 .
+    
+    docker run -p 5003:80 --name coresb7 coresb7:latest
+
+ #docker ocmpose
+    docker compose up -d
+ 
 #mssql
 	docker pull mcr.microsoft.com/mssql/server
 
-	docker run --name msSQL -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=coresbQ1" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:latest 
+	docker run --name MSSQLCoreSB -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=awsedrQ1" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:latest 
 
 #Mongo
 	docker pull mongo
 
-	docker run --name localMongo -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=mongoadmin -p 27017:27017 mongo
+	docker run --name mongoLocal -e MONGO_INITDB_ROOT_USERNAME=core -e MONGO_INITDB_ROOT_PASSWORD=core -p 27017:27017 mongo
 
 #elastic
 	docker pull docker.elastic.co/elasticsearch/elasticsearch:8.2.2 

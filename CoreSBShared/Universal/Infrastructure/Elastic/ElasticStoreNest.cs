@@ -106,6 +106,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
             return BsonSerializer.Deserialize<IEnumerable<T>>(response.Items.ToBsonDocument());
         }
 
+        
         public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) 
             where T : class, IEntityStringId
         {

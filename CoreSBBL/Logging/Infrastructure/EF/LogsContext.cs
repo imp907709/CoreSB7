@@ -30,7 +30,7 @@ namespace CoreSBBL.Logging.Infrastructure.EF
         }
         
         private void RegisterModel<T>(ModelBuilder modelBuilder, string Name) 
-            where T : EntityEF
+            where T : EFCore
         {
             modelBuilder.Entity<T>().ToTable(Name);
             modelBuilder.Entity<T>().Property(p=> p.EfId).ValueGeneratedOnAdd();

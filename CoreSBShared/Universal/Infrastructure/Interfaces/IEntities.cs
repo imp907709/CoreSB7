@@ -35,7 +35,7 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
     {
     }
     
-    public interface ICreated
+    public interface ICreatedCore
     {
         public string CreatedBy { get; set; }
         public DateTime? Created { get; set; }
