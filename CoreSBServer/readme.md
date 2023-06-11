@@ -85,3 +85,13 @@ dotnet ef database update  --context LogsContextGN --project C:\files\git\pets\C
 dotnet ef migrations remove  --context LogsContextGN --project C:\files\git\pets\CoreSB_7\CoreSBBL\CoreSBBL.csproj --startup-project C:\files\git\pets\CoreSB_7\CoreSBServer\CoreSBServer.csproj 
 
 ```
+
+
+## nugets
+-------------------------------------------------------
+
+```
+
+dotnet add package AutoFixture
+
+```
