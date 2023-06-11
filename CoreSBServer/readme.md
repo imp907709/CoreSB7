@@ -1,5 +1,7 @@
 # core 7 cloud native MSA template
+
 # SOLID, Vertical slice + DDD + layered/onion/clean
+
 # KISS DRY
 
 ## Packages to build core:
@@ -25,7 +27,6 @@ dotnet add package NEST
 dotnet add package Elastic.Clients.Elasticsearch
 dotnet add package Elasticsearch.Net 
 ```
-
 
 ## Docker CLI infrastructure init
 -------------------------------------------------------

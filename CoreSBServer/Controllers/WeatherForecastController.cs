@@ -12,7 +12,7 @@ namespace CoreSBServer.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private static readonly string[] Summaries =
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -40,7 +40,7 @@ namespace CoreSBServer.Controllers
         [Route("CheckAsyncExp")]
         public async Task<ActionResult> CheckAsyncExp()
         {
-            AsyncExeptionsCheck ae = new AsyncExeptionsCheck();
+            AsyncExeptionsCheck ae = new();
             await ae.GO();
 
             return Ok();

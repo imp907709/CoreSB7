@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CoreSBBL.Logging.Models;
+using CoreSBBL.Logging.Models.BL;
 
 namespace CoreSBBL.Logging.Services
 {

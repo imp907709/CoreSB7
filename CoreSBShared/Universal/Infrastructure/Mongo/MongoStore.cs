@@ -12,55 +12,36 @@ namespace CoreSBShared.Universal.Infrastructure.Mongo
 {
     public class MongoStore : IMongoStore
     {
-
         internal IMongoClient _client;
 
         internal IMongoDatabase _database;
-        
-        internal MongoClientSettings _settings;
         internal string _dbName;
-        
+
+        internal MongoClientSettings _settings;
+
         /// <summary>
-        /// Empty constructors are required for DI
+        ///     Empty constructors are required for DI
         /// </summary>
         public MongoStore()
         {
         }
-        
+
         public MongoStore(IMongoClient client, string databaseName)
         {
             SetWorkingDatabase(databaseName);
         }
-        
+
         public MongoStore(string connString)
         {
             SetClient(connString);
         }
-        
+
         public MongoStore(string connString, string dbName)
         {
             SetClient(connString);
             SetWorkingDatabase(dbName);
         }
-        
-        void SetClient(string connString)
-        {
-            _settings = MongoClientSettings.FromConnectionString(connString);
-            _settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-            _client = new MongoClient(_settings);
-        }
-        
-        public void SetWorkingDatabase(string dbName)
-        {
-            _database = _client.GetDatabase(dbName);
-            _dbName = dbName;
-        }
-        
-        public IMongoCollection<T> GetCollection<T>()
-        {
-            return _database.GetCollection<T>(typeof(T).Name);
-        }
-        
+
         public async Task<T> GetByIdAsync<T>(T item) where T : class, IEntityObjectId
         {
             return await GetCollection<T>().Find(s => s.Id == item.Id).FirstOrDefaultAsync();
@@ -78,7 +59,7 @@ namespace CoreSBShared.Universal.Infrastructure.Mongo
             return items;
         }
 
-        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) 
+        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression)
             where T : class, IEntityObjectId
         {
             var items = await GetCollection<T>().Find(expression).ToListAsync();
@@ -101,24 +82,42 @@ namespace CoreSBShared.Universal.Infrastructure.Mongo
 
         public async Task<bool> DeleteManyAsync<T>(IEnumerable<T> items) where T : class, IEntityObjectId
         {
-            var deleteFilter = Builders<T>.Filter.In(s => s.Id, items?.Select(s=>s.Id));
-           
+            var deleteFilter = Builders<T>.Filter.In(s => s.Id, items?.Select(s => s.Id));
+
             var result = await GetCollection<T>()
                 .DeleteOneAsync(deleteFilter);
             return result.DeletedCount > 0;
         }
-        
+
         public void CreateDB()
         {
             _client.GetDatabase(_dbName);
         }
-        
+
         public void DropDB()
         {
             _client.DropDatabase(_dbName);
         }
-        
-        static FilterDefinition<T> BuildFilterDefinition<T>(Expression<Func<T, bool>> expression)
+
+        private void SetClient(string connString)
+        {
+            _settings = MongoClientSettings.FromConnectionString(connString);
+            _settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            _client = new MongoClient(_settings);
+        }
+
+        public void SetWorkingDatabase(string dbName)
+        {
+            _database = _client.GetDatabase(dbName);
+            _dbName = dbName;
+        }
+
+        public IMongoCollection<T> GetCollection<T>()
+        {
+            return _database.GetCollection<T>(typeof(T).Name);
+        }
+
+        private static FilterDefinition<T> BuildFilterDefinition<T>(Expression<Func<T, bool>> expression)
         {
             return new ExpressionFilterDefinition<T>(expression);
         }

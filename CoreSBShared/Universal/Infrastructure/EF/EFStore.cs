@@ -42,7 +42,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF
             return items;
         }
 
-        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) 
+        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression)
             where T : class, IEntityIntId
         {
             return await _dbContext.Set<T>().Where(expression).ToListAsync();
@@ -73,7 +73,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF
         {
             _dbContext.Database.EnsureCreated();
         }
-        
+
         public void DropDB()
         {
             _dbContext.Database.EnsureDeleted();

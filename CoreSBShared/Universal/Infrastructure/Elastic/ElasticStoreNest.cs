@@ -2,61 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.Json;
 using System.Threading.Tasks;
+using CoreSBShared.Registrations;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
-
 using Elasticsearch.Net;
-using Nest;
-
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-
-using CoreSBShared.Registrations;
+using Nest;
 
 namespace CoreSBShared.Universal.Infrastructure.Elastic
 {
-       public class ElasticStoreNest : IElasticStoreNest
-       {
+    public class ElasticStoreNest : IElasticStoreNest
+    {
         private readonly ElasticClient _client;
-        private string _indexName { get; set; }
-        
+
         public ElasticStoreNest(string? connStr, string? defaultIndex)
         {
-            var pool = string.IsNullOrEmpty(connStr) 
-                ?  new SingleNodeConnectionPool(new Uri(DefaultConfigurationValues.DefaultElasticConnStr))
-                :  new SingleNodeConnectionPool(new Uri(connStr));
+            var pool = string.IsNullOrEmpty(connStr)
+                ? new SingleNodeConnectionPool(new Uri(DefaultConfigurationValues.DefaultElasticConnStr))
+                : new SingleNodeConnectionPool(new Uri(connStr));
 
-            var idxName =  string.IsNullOrEmpty(defaultIndex) 
+            var idxName = string.IsNullOrEmpty(defaultIndex)
                 ? DefaultConfigurationValues.DefaultElasticIndex
                 : defaultIndex;
 
-            var connSettings = new Nest.ConnectionSettings(pool).DefaultIndex(idxName);
+            var connSettings = new ConnectionSettings(pool).DefaultIndex(idxName);
 
             _client = new ElasticClient(connSettings);
             SetIndex(idxName);
         }
 
+        private string _indexName { get; set; }
+
         public void SetIndex(string indexName)
         {
             _indexName = indexName;
         }
-        
-        public string SetIndex<T>(string indexName)
-            where T : class, IEntityStringId
-        {
-            _indexName = indexName;
-            return CreateindexIfNotExists<T>(_indexName);
-        }
 
-        public string CreateindexIfNotExists<T>(string indexName) 
+        public string CreateindexIfNotExists<T>(string indexName)
             where T : class, IEntityStringId
         {
             if (string.IsNullOrEmpty(indexName))
+            {
                 return "No index info provided";
+            }
 
-            bool indexExists = _client.Indices.Exists(indexName).Exists;
-            
+            var indexExists = _client.Indices.Exists(indexName).Exists;
+
             if (!indexExists)
             {
                 var createIndexResponse = _client.Indices.Create(indexName, c => c
@@ -64,18 +56,19 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
                 );
 
                 if (!createIndexResponse.IsValid)
+                {
                     return $"Index not created: {createIndexResponse.DebugInformation}";
-                
+                }
+
                 return $"Index created: {createIndexResponse.DebugInformation}";
             }
-            
+
             return $"indexExists: {indexExists}";
         }
-        
+
 
         public async Task<T> GetByIdAsync<T, TKey>(TKey id) where T : class, IEntity<TKey>
         {
-            
             var response = await _client.GetAsync<T>(id.ToString(), idx => idx.Index(_indexName));
             return BsonSerializer.Deserialize<T>(response.ToBsonDocument());
         }
@@ -91,11 +84,14 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
             var response = await _client.IndexAsync(item, idx => idx.Index<T>());
             return response;
         }
+
         public async Task<T> AddAsync<T>(T item) where T : class
         {
             var response = await _client.IndexAsync(item, idx => idx.Index<T>());
-            if (response.IsValid && response.Result == Nest.Result.Created)
+            if (response.IsValid && response.Result == Result.Created)
+            {
                 return item;
+            }
 
             return null;
         }
@@ -106,11 +102,10 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
             return BsonSerializer.Deserialize<IEnumerable<T>>(response.Items.ToBsonDocument());
         }
 
-        
-        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) 
+
+        public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression)
             where T : class, IEntityStringId
         {
-            
             var searchResponse = await _client.SearchAsync<T>(s => s
                 .Index(_indexName)
                 .Query(q => q.MatchAll()));
@@ -126,9 +121,9 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
 
         public async Task<bool> DeleteAsync<T>(T item) where T : class, IEntityStringId
         {
-            var response = await _client.DeleteAsync<T>(item.Id, 
+            var response = await _client.DeleteAsync<T>(item.Id,
                 d => d.Index(_indexName));
-            return response.Result == Nest.Result.Deleted;
+            return response.Result == Result.Deleted;
         }
 
         public async Task<bool> DeleteManyAsync<T>(IEnumerable<T> items) where T : class, IEntityStringId
@@ -137,7 +132,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
                 .Index(_indexName)
                 .Query(q => q
                     .Ids(i => i
-                        .Values(items.Select(s=>s.Id))
+                        .Values(items.Select(s => s.Id))
                     )
                 )
             );
@@ -160,19 +155,27 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
             }
         }
 
+        public string SetIndex<T>(string indexName)
+            where T : class, IEntityStringId
+        {
+            _indexName = indexName;
+            return CreateindexIfNotExists<T>(_indexName);
+        }
+
         private T ReturnDocument<T>(T doc) where T : BsonDocument
         {
             return BsonSerializer.Deserialize<T>(doc);
         }
+
         private IEnumerable<T> ReturnDocument<T>(List<T> doc) where T : BsonDocument
         {
             var result = doc.Select(s => BsonSerializer.Deserialize<T>(s));
             return result;
         }
-        
+
         private IndexDescriptor<T> BuildIndexDescriptor<T>(string _indexName) where T : class, IEntityStringId
         {
-            var index = Nest.IndexName.From<T>(_indexName);
+            var index = IndexName.From<T>(_indexName);
             var indexDescriptor = new IndexDescriptor<T>(index);
             return indexDescriptor;
         }

@@ -1,8 +1,6 @@
-﻿
+﻿// Domain Logging specific strings 
 
-// Domain Logging specific strings 
-
-using CoreSBBL.Logging.Models;
+using CoreSBBL.Logging.Models.DAL;
 
 namespace CoreSBBL.Logging
 {
@@ -10,29 +8,29 @@ namespace CoreSBBL.Logging
     {
         public static string DefaultElasticIndex => "logging";
     }
-    
+
     public class DefaultModelValues
     {
         /// <summary>
-        /// Strings for labels and tags
+        ///     Strings for labels and tags
         /// </summary>
         public class Logging
         {
             public static string LoggingLabelDefault => "Default";
             public static string LoggingLabelError => "Error";
-            
+
             public static string LoggingSystemTag => "System";
-            
-            public static string MessageEmpty =>  "empty";
+
+            public static string MessageEmpty => "empty";
         }
-        
+
         /// <summary>
-        /// Tags themselves
+        ///     Tags themselves
         /// </summary>
         public class LoggingTags
         {
-            public static LogsTagDALEF Default => new LogsTagDALEF() {index = 1, Text = Logging.LoggingLabelDefault};
-            public static LogsTagDALEF System => new LogsTagDALEF() {index = 2, Text = Logging.LoggingSystemTag};
+            public static LogsTagDALEF Default => new() {index = 1, Text = Logging.LoggingLabelDefault};
+            public static LogsTagDALEF System => new() {index = 2, Text = Logging.LoggingSystemTag};
         }
     }
 }
