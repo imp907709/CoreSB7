@@ -1,43 +1,84 @@
-﻿using CoreSBBL.Logging.Models.DAL;
+﻿using CoreSBBL.Logging.Models.DAL.GN;
+using CoreSBBL.Logging.Models.DAL.TC;
+using CoreSBShared.Universal.Infrastructure.EF;
+using CoreSBShared.Universal.Infrastructure.Interfaces;
 using CoreSBShared.Universal.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreSBBL.Logging.Infrastructure.EF
+namespace CoreSBBL.Logging.Infrastructure.TC
 {
-    public class LogsContext : DbContext
+    public class LogsContextTC : DbContext
     {
-        public LogsContext(DbContextOptions<LogsContext> options) : base(options)
+        public LogsContextTC(DbContextOptions<LogsContextTC> options) : base(options)
         {
         }
 
-        public virtual DbSet<LogsDALEF> Logging { get; set; }
-        public virtual DbSet<LogsLabelDALEF> LoggingLabel { get; set; }
-        public virtual DbSet<LogsTagDALEF> LoggingTags { get; set; }
+        public virtual DbSet<LogsDALEf> Logging { get; set; }
+        public virtual DbSet<LogsLabelDALEfTc> LoggingLabel { get; set; }
+        public virtual DbSet<LogsTagDALEfTc> LoggingTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            RegisterModel<LogsDALEF>(modelBuilder, "Logs");
-            RegisterModel<LogsLabelDALEF>(modelBuilder, "LogsLabel");
-            RegisterModel<LogsTagDALEF>(modelBuilder, "LogsTags");
+            RegisterModel<LogsDALEf>(modelBuilder, "Logs");
+            RegisterModel<LogsLabelDALEfTc>(modelBuilder, "LogsLabel");
+            RegisterModel<LogsTagDALEfTc>(modelBuilder, "LogsTags");
 
-            modelBuilder.Entity<LogsDALEF>()
+            modelBuilder.Entity<LogsDALEf>()
                 .HasMany(e => e.Tags)
                 .WithMany(e => e.Loggings)
                 .UsingEntity("LogsToTags",
-                    l => l.HasOne(typeof(LogsTagDALEF)).WithMany().HasForeignKey("TagsId")
-                        .HasPrincipalKey(nameof(LogsTagDALEF.EfId)),
-                    r => r.HasOne(typeof(LogsDALEF)).WithMany().HasForeignKey("LogId")
-                        .HasPrincipalKey(nameof(LogsDALEF.EfId)),
+                    l => l.HasOne(typeof(LogsTagDALEfTc)).WithMany().HasForeignKey("TagsId")
+                        .HasPrincipalKey(nameof(LogsTagDALEfTc.IdInt)),
+                    r => r.HasOne(typeof(LogsDALEf)).WithMany().HasForeignKey("LogId")
+                        .HasPrincipalKey(nameof(LogsDALEf.IdInt)),
                     j => j.HasKey("LogId", "TagsId"));
         }
 
         private void RegisterModel<T>(ModelBuilder modelBuilder, string Name)
-            where T : EFCore
+            where T : CoreDalint
         {
             modelBuilder.Entity<T>().ToTable(Name);
-            modelBuilder.Entity<T>().Property(p => p.EfId).ValueGeneratedOnAdd();
-            modelBuilder.Entity<T>().HasKey(p => p.EfId).HasName($"{Name}_Id");
-            modelBuilder.Entity<T>().Property(p => p.EfId).HasColumnName("Id");
+            modelBuilder.Entity<T>().Property(p => p.IdInt).ValueGeneratedOnAdd();
+            modelBuilder.Entity<T>().HasKey(p => p.IdInt).HasName($"{Name}_Id");
+            modelBuilder.Entity<T>().Property(p => p.IdInt).HasColumnName("Id");
         }
     }
 }
+
+namespace CoreSBBL.Logging.Infrastructure.GN
+{
+    public class LogsContextGN : DbContext
+    {
+        public LogsContextGN(DbContextOptions<LogsContextGN> options) : base(options)
+        {
+        }
+        
+        public virtual DbSet<LogsDALEfGn> LoggingGN { get; set; }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<CoreDalIntg>().HasKey(c => c.Id);
+            //RegisterModel<LogsDALEFCoreGN>(modelBuilder, "LogsGN");
+
+            modelBuilder.Entity<LogsDALEfGn>().HasKey(s => s.Id);
+            modelBuilder.Entity<LogsDALEfGn>().ToTable("LogGN");
+            modelBuilder.Entity<LogsDALEfGn>().Property(p => p.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<LogsDALEfGn>().Property(p => p.Id).HasColumnName("Id");
+            
+            //modelBuilder.Entity<LogsDALEFCoreGN>().ToTable("LogsGN");
+            // modelBuilder.Entity<LogsDALEFCoreGN>().Property(p => p.Id).ValueGeneratedOnAdd();
+            // modelBuilder.Entity<LogsDALEFCoreGN>().HasKey(p => p.Id).HasName($"Id");
+            // modelBuilder.Entity<LogsDALEFCoreGN>().Property(p => p.Id).HasColumnName("Id");
+        }
+
+        private void RegisterModel<T>(ModelBuilder modelBuilder, string Name)
+            where T :  CoreDalIntg
+        {
+            modelBuilder.Entity<T>().ToTable(Name);
+            modelBuilder.Entity<T>().Property(p => p.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<T>().HasKey(p => p.Id).HasName($"{Name}_Id");
+            modelBuilder.Entity<T>().Property(p => p.Id).HasColumnName("Id");
+        }
+    }
+}
+

@@ -1,6 +1,6 @@
 ﻿// Domain Logging specific strings 
 
-using CoreSBBL.Logging.Models.DAL;
+using CoreSBBL.Logging.Models.DAL.TC;
 
 namespace CoreSBBL.Logging
 {
@@ -29,8 +29,8 @@ namespace CoreSBBL.Logging
         /// </summary>
         public class LoggingTags
         {
-            public static LogsTagDALEF Default => new() {index = 1, Text = Logging.LoggingLabelDefault};
-            public static LogsTagDALEF System => new() {index = 2, Text = Logging.LoggingSystemTag};
+            public static LogsTagDALEfTc Default => new() {Index = 1, Text = Logging.LoggingLabelDefault};
+            public static LogsTagDALEfTc System => new() {Index = 2, Text = Logging.LoggingSystemTag};
         }
     }
 }

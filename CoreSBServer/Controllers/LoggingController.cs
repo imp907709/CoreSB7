@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using CoreSBBL.Logging.Models.API;
-using CoreSBBL.Logging.Models.BL;
+using CoreSBBL.Logging.Models.TC.API;
+using CoreSBBL.Logging.Models.TC.BL;
 using CoreSBBL.Logging.Services;
 using Microsoft.AspNetCore.Mvc;
 

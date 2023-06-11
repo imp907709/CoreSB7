@@ -40,7 +40,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
         }
 
         public string CreateindexIfNotExists<T>(string indexName)
-            where T : class, IEntityStringId
+            where T : class, ICoreDalStrg
         {
             if (string.IsNullOrEmpty(indexName))
             {
@@ -67,13 +67,13 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
         }
 
 
-        public async Task<T> GetByIdAsync<T, TKey>(TKey id) where T : class, IEntity<TKey>
+        public async Task<T> GetByIdAsync<T, TKey>(TKey id) where T : class, ICoreDal<TKey>
         {
             var response = await _client.GetAsync<T>(id.ToString(), idx => idx.Index(_indexName));
             return BsonSerializer.Deserialize<T>(response.ToBsonDocument());
         }
 
-        public async Task<T?> GetByIdAsync<T>(string id) where T : class, IEntityStringId
+        public async Task<T?> GetByIdAsync<T>(string id) where T : class, ICoreDalStrg
         {
             var result = await _client.GetAsync<T>(id);
             return result.Source;
@@ -104,7 +104,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
 
 
         public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression)
-            where T : class, IEntityStringId
+            where T : class, ICoreDalStrg
         {
             var searchResponse = await _client.SearchAsync<T>(s => s
                 .Index(_indexName)
@@ -119,14 +119,14 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
             return BsonSerializer.Deserialize<T>(indexResponse.ToBsonDocument());
         }
 
-        public async Task<bool> DeleteAsync<T>(T item) where T : class, IEntityStringId
+        public async Task<bool> DeleteAsync<T>(T item) where T : class, ICoreDalStrg
         {
             var response = await _client.DeleteAsync<T>(item.Id,
                 d => d.Index(_indexName));
             return response.Result == Result.Deleted;
         }
 
-        public async Task<bool> DeleteManyAsync<T>(IEnumerable<T> items) where T : class, IEntityStringId
+        public async Task<bool> DeleteManyAsync<T>(IEnumerable<T> items) where T : class, ICoreDalStrg
         {
             var response = await _client.DeleteByQueryAsync<T>(d => d
                 .Index(_indexName)
@@ -156,7 +156,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
         }
 
         public string SetIndex<T>(string indexName)
-            where T : class, IEntityStringId
+            where T : class, ICoreDalStrg
         {
             _indexName = indexName;
             return CreateindexIfNotExists<T>(_indexName);
@@ -173,7 +173,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
             return result;
         }
 
-        private IndexDescriptor<T> BuildIndexDescriptor<T>(string _indexName) where T : class, IEntityStringId
+        private IndexDescriptor<T> BuildIndexDescriptor<T>(string _indexName) where T : class, ICoreDalStrg
         {
             var index = IndexName.From<T>(_indexName);
             var indexDescriptor = new IndexDescriptor<T>(index);
