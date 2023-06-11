@@ -7,12 +7,34 @@ using CoreSBShared.Universal.Infrastructure.Models;
 // Type containing ids like {idInt, idString, id Object}
 namespace CoreSBBL.Logging.Models.DAL.TC
 {
-    // Type contaioning ids, ids contain type name in it
-    /// <summary>
-    ///     Logging core model, as template for all layers
-    ///     (logging not assumed to have some differences by layers,
-    ///     cause it is project wide ProofOfWork model with no real intense business domain behaviour )
-    /// </summary>
+    // DOMAIN DAL TC
+    // model containing domain fields, and id impl details like (int, string obj )
+    // but not infrastructure - (like EF nav props, elk and mongo tags)
+    public class TagDalIntTc : CoreDalint, ICoreTag
+    {
+        public int Index { get; set; }
+        public string Text { get; set; }
+    }
+    
+    // Labels assumed to work with constants
+    public class LabelDalIntTc : CoreDalint
+    {
+        public string Text { get; set; } = DefaultModelValues.Logging.LoggingLabelDefault;
+    }
+    
+    
+    
+    // DOMAIN DAL TC INFR
+    // models contain domain logic, db level
+    // db infr specific (like EF nav props, elk and mongo tags)
+    
+    //Logs Tag model for EF
+    public class LogsTagDALEfTc : TagDalIntTc
+    {
+        public ICollection<LogsDALEf> Loggings { get; set; }
+    }
+    
+    // Logs EF model
     public class LogsDALEfTc : CoreDalint
     {
         // The log text itself
@@ -21,7 +43,7 @@ namespace CoreSBBL.Logging.Models.DAL.TC
         public int? LabelId { get; set; }
 
         // To distinguish logging by types
-        public LogsLabelDALEfTc? Label { get; set; }
+        public LabelDalIntTc? Label { get; set; }
 
         // To add more granularity to search
         // further string tagging for elastic and mongo 
@@ -31,24 +53,10 @@ namespace CoreSBBL.Logging.Models.DAL.TC
             new() {Index = 2, Text = DefaultModelValues.Logging.LoggingLabelError}
         };
     }
-
-    public class LabelTagEF : CoreDalint, ICoreTag
+    public class LogsDALEf : LogsDALEfTc
     {
-        public int Index { get; set; }
-        public string Text { get; set; }
     }
     
-    // Labels assumed to work with constants
-    public class LogsLabelDALEfTc : CoreDalint
-    {
-        public static string Text { get; set; } = DefaultModelValues.Logging.LoggingLabelDefault;
-    }
-
-    public class LogsTagDALEfTc : LabelTagEF
-    {
-        public ICollection<LogsDALEf> Loggings { get; set; }
-    }
-
     // Enum replacement
     public class LogsTagEnumDALEfTc
     {
@@ -69,14 +77,17 @@ namespace CoreSBBL.Logging.Models.DAL.TC
         }
     }
 
-    
-    public class LogsDALEf : LogsDALEfTc
+
+
+    // Models for mongo
+    // DOMAIN DAL TC
+    public class LabelMongo : LabelDalIntTc
     {
     }
-
     
-    
-    // Models for mongo 
+    public class TagMongo : TagDalIntTc
+    {
+    }
     public class LogsMongo : CoreDalObj
     {
         public string? Message { get; set; }
@@ -85,21 +96,21 @@ namespace CoreSBBL.Logging.Models.DAL.TC
         public IList<TagMongo> Tags { get; set; }
     }
 
-    public class LabelMongo : CoreDalObj
-    {
-        public string Text { get; set; }
-    }
-    
-    public class TagMongo : CoreDalObj
-    {
-        public string Id { get; set; }
-        public string Text { get; set; }
-    }
+  
 
     // Models for elastic
-    public class LogsElastic : CoreElastic
+    public class LabelElk : LabelDalIntTc
     {
-        public string Message { get; set; }
+    }
+    public class TagElk : TagDalIntTc
+    {
+    }
+    public class LogsElk : CoreElastic
+    {
+        public string? Message { get; set; }
+        
+        public LabelElk? Label { get; set; }
+        public IList<TagElk> Tags { get; set; }
     }
 }
 

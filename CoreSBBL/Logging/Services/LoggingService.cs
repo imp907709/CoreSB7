@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreSBBL.Logging.Infrastructure.TC;
 using CoreSBBL.Logging.Infrastructure.Mongo;
@@ -54,15 +55,21 @@ namespace CoreSBBL.Logging.Services
 
             LogsDALEfGn _itemGN = new ();
             var respGN = await _logsEFStoreGInt.AddAsync(_itemGN);
-            
-            var resp2 = await _mongoStore.AddAsync(_item);
 
-            LogsElastic call = new() {Message = _item?.Message ?? DefaultModelValues.Logging.MessageEmpty};
+            LogsMongo _itemMng = new () { Message = item.Message 
+                ,Label = new LabelMongo(){Text= "label 1" }
+                ,Tags = new List<TagMongo>(){new (){Text = "tag 1"},new (){Text = "tag 2"}}};
+            var resp2 = await _mongoStore.AddAsync(_itemMng);
+
+            LogsElk _call = new () { Message = item.Message ?? DefaultModelValues.Logging.MessageEmpty 
+                ,Label = new LabelElk(){Text= "label 1" }
+                ,Tags = new List<TagElk>(){new (){Text = "tag 1"},new (){Text = "tag 2"}}};
             try
             {
-                var res = _elasticStore.CreateindexIfNotExists<LogsElastic>(DefaultConfigurationValues
+                var res = _elasticStore.CreateindexIfNotExists<LogsElk>(DefaultConfigurationValues
                     .DefaultElasticIndex);
-                var respelk = await _elasticStore.AddAsyncElk(call);
+                var respelk = await _elasticStore.AddAsyncElk(_call);
+                
             }
             catch (Exception e)
             {
@@ -70,7 +77,7 @@ namespace CoreSBBL.Logging.Services
                 throw;
             }
 
-            return new LogsBL {Message = resp.Message + "  " + resp2.Message + "  " + call.Message};
+            return new LogsBL {Message = resp.Message + "  " + resp2.Message + "  " + _call.Message};
         }
     }
 }

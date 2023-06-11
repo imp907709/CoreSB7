@@ -14,13 +14,13 @@ namespace CoreSBBL.Logging.Infrastructure.TC
         }
 
         public virtual DbSet<LogsDALEf> Logging { get; set; }
-        public virtual DbSet<LogsLabelDALEfTc> LoggingLabel { get; set; }
+        public virtual DbSet<LabelDalIntTc> LoggingLabel { get; set; }
         public virtual DbSet<LogsTagDALEfTc> LoggingTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             RegisterModel<LogsDALEf>(modelBuilder, "Logs");
-            RegisterModel<LogsLabelDALEfTc>(modelBuilder, "LogsLabel");
+            RegisterModel<LabelDalIntTc>(modelBuilder, "LogsLabel");
             RegisterModel<LogsTagDALEfTc>(modelBuilder, "LogsTags");
 
             modelBuilder.Entity<LogsDALEf>()
