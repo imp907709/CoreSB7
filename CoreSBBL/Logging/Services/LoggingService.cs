@@ -50,12 +50,25 @@ namespace CoreSBBL.Logging.Services
 
             _elasticStore.CreateDB();
 
+            // type containing id store
             LogsDALEf _item = new() {Message = item.Message};
             var resp = await _logsStore.AddAsync(_item);
 
-            LogsDALEfGn _itemGN = new ();
-            var respGN = await _logsEFStoreGInt.AddAsync(_itemGN);
-
+            // generic int id store
+            LogsDALEfGn _itemGN1 = new() {Message = item.Message};
+            var respG = await _logsEFStoreGInt.AddAsync(_itemGN1);
+            
+            LogsDALEfGn _itemGN3 = new() {Message = item.Message};
+            var respGi = await _logsStoreGMethod.AddAsync<LogsDALEfGn,int>(_itemGN3);
+            
+            
+            
+            //needed seperate model registration, inheritance err
+            // LogsDALEfGn _itemGN2 = new() {Message = item.Message};
+            // var respGint = await _logsStoreGInt.AddAsync(_itemGN2);
+            
+           
+                
             LogsMongo _itemMng = new () { Message = item.Message 
                 ,Label = new LabelMongo(){Text= "label 1" }
                 ,Tags = new List<TagMongo>(){new (){Text = "tag 1"},new (){Text = "tag 2"}}};
