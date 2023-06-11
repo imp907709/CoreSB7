@@ -30,7 +30,7 @@ namespace CoreSBBL.Logging.Infrastructure.GN
     //class level store generic id int
     public class LogsEFStoreGInt : EFStoreGInt, ILogsEFStoreGInt
     {
-        public LogsEFStoreGInt(DbContext dbContext) : base(dbContext)
+        public LogsEFStoreGInt(LogsContextGN dbContext) : base(dbContext)
         {
         }
     }
@@ -39,7 +39,7 @@ namespace CoreSBBL.Logging.Infrastructure.GN
     //method level store generic id int
     public class LogsEFStoreG : EFStoreG, ILogsEFStoreG
     {
-        public LogsEFStoreG(DbContext dbContext) : base(dbContext)
+        public LogsEFStoreG(LogsContextGN dbContext) : base(dbContext)
         {
         }
     }
