@@ -1,5 +1,4 @@
-﻿using CoreSBShared.Universal.Infrastructure;
-using CoreSBShared.Universal.Infrastructure.Mongo;
+﻿using CoreSBShared.Universal.Infrastructure.Mongo;
 
 namespace CoreSBBL.Logging.Infrastructure.Mongo
 {

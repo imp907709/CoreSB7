@@ -12,6 +12,7 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
     {
         public int EfId { get; set; }
     }
+
     public interface IEntityMongo
     {
         public ObjectId MongoId { get; set; }
@@ -21,20 +22,20 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
     public interface IEntityIntId : IEntity<int>
     {
     }
-    
+
     public interface IEntityStringId : IEntity<string>
     {
     }
-    
+
     public interface IEntityGuidId : IEntity<Guid>
     {
     }
-    
+
     //mongo specific
     public interface IEntityObjectId : IEntity<ObjectId>
     {
     }
-    
+
     public interface ICreatedCore
     {
         public string CreatedBy { get; set; }

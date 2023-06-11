@@ -8,8 +8,9 @@ namespace CoreSBShared.Universal.Infrastructure.Mongo
 {
     public interface IMongoStore : IStore
     {
-        Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) 
+        Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression)
             where T : class, IEntityObjectId;
+
         Task<T> GetByIdAsync<T>(T item) where T : class, IEntityObjectId;
         Task<T> UpdateAsync<T>(T item) where T : class, IEntityObjectId;
         Task<bool> DeleteAsync<T>(T item) where T : class, IEntityObjectId;

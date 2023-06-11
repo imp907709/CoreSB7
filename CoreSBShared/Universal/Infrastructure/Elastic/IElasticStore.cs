@@ -9,7 +9,7 @@ namespace CoreSBShared.Universal.Infrastructure.Elastic
     public interface IElasticStore : IStore
     {
         void SetIndex(string indexName);
-        
+
         Task<T> GetByIdAsync<T, TKey>(TKey id) where T : class, IEntity<TKey>;
         Task<T?> GetByIdAsync<T>(string id) where T : class, IEntityStringId;
         Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) where T : class, IEntityStringId;

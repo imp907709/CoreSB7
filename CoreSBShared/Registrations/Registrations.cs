@@ -1,9 +1,7 @@
-﻿using CoreSBShared.Universal.Infrastructure;
-using CoreSBShared.Universal.Infrastructure.EF;
+﻿using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,12 +9,12 @@ using Microsoft.Extensions.Hosting;
 namespace CoreSBShared.Registrations
 {
     /// <summary>
-    /// Startup registrations, builder, app
+    ///     Startup registrations, builder, app
     /// </summary>
     public static class Registrations
     {
         /// <summary>
-        /// Register connections from app settings to register with option pattern
+        ///     Register connections from app settings to register with option pattern
         /// </summary>
         public static void RegisterConnections(this WebApplicationBuilder builder)
         {
@@ -24,18 +22,18 @@ namespace CoreSBShared.Registrations
             builder.Configuration.GetSection(MongoConnection.SectionName).Bind(ConnectionsRegister.MongoConnection);
             builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
         }
-        
+
         public static void FrameworkRegistrations(this WebApplicationBuilder builder)
         {
             // Add services to the container.
 
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
         }
 
-        
 
         public static void RegisterContexts(this WebApplicationBuilder builder)
         {
@@ -45,21 +43,20 @@ namespace CoreSBShared.Registrations
         }
 
         /// <summary>
-        /// Register db contexts
+        ///     Register db contexts
         /// </summary>
         internal static void RegisterEFContexts(this WebApplicationBuilder builder)
         {
-            
-            builder.Services.AddScoped<IEFStore,EFStore>();
+            builder.Services.AddScoped<IEFStore, EFStore>();
         }
-        
+
         internal static void RegisterMongoContexts(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IMongoStore>(s=> 
-                new MongoStore(ConnectionsRegister.MongoConnection.ConnectionString, 
+            builder.Services.AddScoped<IMongoStore>(s =>
+                new MongoStore(ConnectionsRegister.MongoConnection.ConnectionString,
                     ConnectionsRegister.MongoConnection.DatabaseName));
         }
-        
+
         /// Register db contexts
         /// </summary>
         internal static void RegisterElasticContexts(this WebApplicationBuilder builder)
@@ -69,7 +66,7 @@ namespace CoreSBShared.Registrations
                 return new ElasticStoreNest(null, null);
             });
         }
-        
+
         public static void Registration(this WebApplication app)
         {
             // Configure the HTTP request pipeline.
@@ -78,7 +75,7 @@ namespace CoreSBShared.Registrations
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+
             app.UseSwagger();
             app.UseSwaggerUI();
 
@@ -87,8 +84,6 @@ namespace CoreSBShared.Registrations
             app.UseAuthorization();
 
             app.MapControllers();
-
         }
-        
     }
 }
