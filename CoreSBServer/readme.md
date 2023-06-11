@@ -71,3 +71,17 @@ dotnet add package Elasticsearch.Net
 	docker run --name kibana --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.2.2
 
 ```
+
+## EF migration init
+-------------------------------------------------------
+
+```
+
+dotnet ef migrations add "initial"  --context LogsContextTC --project C:\files\git\pets\CoreSB_7\CoreSBBL\CoreSBBL.csproj --startup-project C:\files\git\pets\CoreSB_7\CoreSBServer\CoreSBServer.csproj
+dotnet ef database update  --context LogsContextTC --project C:\files\git\pets\CoreSB_7\CoreSBBL\CoreSBBL.csproj --startup-project C:\files\git\pets\CoreSB_7\CoreSBServer\CoreSBServer.csproj 
+
+dotnet ef migrations add "initialGN"  --context LogsContextGN --project C:\files\git\pets\CoreSB_7\CoreSBBL\CoreSBBL.csproj --startup-project C:\files\git\pets\CoreSB_7\CoreSBServer\CoreSBServer.csproj 
+dotnet ef database update  --context LogsContextGN --project C:\files\git\pets\CoreSB_7\CoreSBBL\CoreSBBL.csproj --startup-project C:\files\git\pets\CoreSB_7\CoreSBServer\CoreSBServer.csproj 
+dotnet ef migrations remove  --context LogsContextGN --project C:\files\git\pets\CoreSB_7\CoreSBBL\CoreSBBL.csproj --startup-project C:\files\git\pets\CoreSB_7\CoreSBServer\CoreSBServer.csproj 
+
+```

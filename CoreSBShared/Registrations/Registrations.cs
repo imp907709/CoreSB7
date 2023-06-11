@@ -23,17 +23,12 @@ namespace CoreSBShared.Registrations
             builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
         }
 
-        public static void FrameworkRegistrations(this WebApplicationBuilder builder)
+
+
+        public static void RegisterServices(this WebApplicationBuilder builder)
         {
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            RegisterEFStores(builder);
         }
-
 
         public static void RegisterContexts(this WebApplicationBuilder builder)
         {
@@ -67,6 +62,32 @@ namespace CoreSBShared.Registrations
             });
         }
 
+        internal static void RegisterEFStores(this WebApplicationBuilder builder)
+        {
+                // Method level store, type containing id
+                builder.Services.AddScoped<IEFStore, EFStore>();
+
+                // Class level store generic id
+                builder.Services.AddScoped(typeof(IEFStore<,>), typeof(EFStoreG<,>));
+
+                // Class level store generic id int
+                builder.Services.AddScoped<IEFStoreInt, EFStoreGInt>();
+
+                // Method level store generic id int
+                builder.Services.AddScoped<IEFStoreG, EFStoreG>();
+        }
+
+        public static void FrameworkRegistrations(this WebApplicationBuilder builder)
+        {
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+        }
+        
         public static void Registration(this WebApplication app)
         {
             // Configure the HTTP request pipeline.

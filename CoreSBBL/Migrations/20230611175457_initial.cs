@@ -6,70 +6,70 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CoreSBBL.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "LoggingLabel",
+                name: "LogsLabel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedById = table.Column<int>(type: "int", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("LoggingLabel_Id", x => x.Id);
+                    table.PrimaryKey("LogsLabel_Id", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LoggingTags",
+                name: "LogsTags",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedById = table.Column<int>(type: "int", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    index = table.Column<int>(type: "int", nullable: false),
+                    Index = table.Column<int>(type: "int", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("LoggingTags_Id", x => x.Id);
+                    table.PrimaryKey("LogsTags_Id", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Logging",
+                name: "Logs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LabelId = table.Column<int>(type: "int", nullable: true),
                     CreatedById = table.Column<int>(type: "int", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LabelId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("Logging_Id", x => x.Id);
+                    table.PrimaryKey("Logs_Id", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Logging_LoggingLabel_LabelId",
+                        name: "FK_Logs_LogsLabel_LabelId",
                         column: x => x.LabelId,
-                        principalTable: "LoggingLabel",
+                        principalTable: "LogsLabel",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "LoggingToTags",
+                name: "LogsToTags",
                 columns: table => new
                 {
                     LogId = table.Column<int>(type: "int", nullable: false),
@@ -77,29 +77,29 @@ namespace CoreSBBL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LoggingToTags", x => new { x.LogId, x.TagsId });
+                    table.PrimaryKey("PK_LogsToTags", x => new { x.LogId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_LoggingToTags_LoggingTags_TagsId",
+                        name: "FK_LogsToTags_LogsTags_TagsId",
                         column: x => x.TagsId,
-                        principalTable: "LoggingTags",
+                        principalTable: "LogsTags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LoggingToTags_Logging_LogId",
+                        name: "FK_LogsToTags_Logs_LogId",
                         column: x => x.LogId,
-                        principalTable: "Logging",
+                        principalTable: "Logs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Logging_LabelId",
-                table: "Logging",
+                name: "IX_Logs_LabelId",
+                table: "Logs",
                 column: "LabelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LoggingToTags_TagsId",
-                table: "LoggingToTags",
+                name: "IX_LogsToTags_TagsId",
+                table: "LogsToTags",
                 column: "TagsId");
         }
 
@@ -107,16 +107,16 @@ namespace CoreSBBL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LoggingToTags");
+                name: "LogsToTags");
 
             migrationBuilder.DropTable(
-                name: "LoggingTags");
+                name: "LogsTags");
 
             migrationBuilder.DropTable(
-                name: "Logging");
+                name: "Logs");
 
             migrationBuilder.DropTable(
-                name: "LoggingLabel");
+                name: "LogsLabel");
         }
     }
 }

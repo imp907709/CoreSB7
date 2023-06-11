@@ -10,6 +10,7 @@ builder.FrameworkRegistrations();
 
 builder.RegisterConnections();
 builder.RegisterContexts();
+builder.RegisterServices();
 
 builder.RegisterContextsBL();
 builder.RegisterServicesBL();
