@@ -5,7 +5,7 @@ using CoreSBShared.Universal.Infrastructure.Interfaces;
 using CoreSBShared.Universal.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreSBBL.Logging.Infrastructure.TC
+namespace CoreSBBL.Logging.Infrastructure.TS
 {
     public class LogsContextTC : DbContext
     {
@@ -28,9 +28,9 @@ namespace CoreSBBL.Logging.Infrastructure.TC
                 .WithMany(e => e.Loggings)
                 .UsingEntity("LogsToTags",
                     l => l.HasOne(typeof(LogsTagDALEfTc)).WithMany().HasForeignKey("TagsId")
-                        .HasPrincipalKey(nameof(LogsTagDALEfTc.IdInt)),
+                        .HasPrincipalKey(nameof(LogsTagDALEfTc.Id)),
                     r => r.HasOne(typeof(LogsDALEf)).WithMany().HasForeignKey("LogId")
-                        .HasPrincipalKey(nameof(LogsDALEf.IdInt)),
+                        .HasPrincipalKey(nameof(LogsDALEf.Id)),
                     j => j.HasKey("LogId", "TagsId"));
         }
 
@@ -38,9 +38,9 @@ namespace CoreSBBL.Logging.Infrastructure.TC
             where T : CoreDalint
         {
             modelBuilder.Entity<T>().ToTable(Name);
-            modelBuilder.Entity<T>().Property(p => p.IdInt).ValueGeneratedOnAdd();
-            modelBuilder.Entity<T>().HasKey(p => p.IdInt).HasName($"{Name}_Id");
-            modelBuilder.Entity<T>().Property(p => p.IdInt).HasColumnName("Id");
+            modelBuilder.Entity<T>().Property(p => p.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<T>().HasKey(p => p.Id).HasName($"{Name}_Id");
+            modelBuilder.Entity<T>().Property(p => p.Id).HasColumnName("Id");
         }
     }
 }
