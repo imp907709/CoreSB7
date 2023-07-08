@@ -1,8 +1,6 @@
 # core 7 cloud native MSA template
 
-# SOLID, Vertical slice + DDD + layered/onion/clean
-
-# KISS DRY
+# SOLID Vertical slice + DDD + layered/onion/clean
 
 ## Packages to build core:
 -------------------------------------------------------
