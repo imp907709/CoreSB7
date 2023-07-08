@@ -8,7 +8,151 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreSBShared.Universal.Infrastructure.EF
 {
-    //Method level store, typecontaining id 
+    //GN
+    //Class level store generic id
+    public class EFStoreG<T, K> : IEFStore<T, K>
+        where T : class, ICoreDal<K>
+    {
+        private readonly DbContext _dbContext;
+
+        public EFStoreG(DbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<T> GetByIdAsync(K id)
+        {
+            return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id.Equals(id));
+        }
+
+        public async Task<T> AddAsync(T item)
+        {
+            await _dbContext.Set<T>().AddAsync(item);
+            await _dbContext.SaveChangesAsync();
+            return item;
+        }
+
+        public async Task<IEnumerable<T>> AddManyAsync(IEnumerable<T> items)
+        {
+            await _dbContext.Set<T>().AddRangeAsync(items);
+            await _dbContext.SaveChangesAsync();
+            return items;
+        }
+
+        public async Task<IEnumerable<T>> GetByFilterAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _dbContext.Set<T>().Where(expression).ToListAsync();
+        }
+
+        public async Task<T> UpdateAsync(T item)
+        {
+            _dbContext.Entry(item).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return item;
+        }
+
+        public async Task<bool> DeleteAsync(T item)
+        {
+            _dbContext.Set<T>().Remove(item);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<T>> DeleteManyAsync(IEnumerable<T> items)
+        {
+            _dbContext.Set<T>().RemoveRange(items);
+            await _dbContext.SaveChangesAsync();
+            return items;
+        }
+
+        public void CreateDB()
+        {
+            _dbContext.Database.EnsureCreated();
+        }
+
+        public void DropDB()
+        {
+            _dbContext.Database.EnsureDeleted();
+        }
+    }
+
+    //GN
+    //Method lvl
+    public class EFStoreG : IEFStoreG
+    {
+        private readonly DbContext _dbContext;
+
+        public EFStoreG(DbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<T> GetByIdAsync<T, K>(K id)
+            where T : class, ICoreDal<K>
+        {
+            return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id.Equals(id));
+        }
+
+        public async Task<T> AddAsync<T, K>(T item)
+            where T : class, ICoreDal<K>
+        {
+            await _dbContext.Set<T>().AddAsync(item);
+            await _dbContext.SaveChangesAsync();
+            return item;
+        }
+
+        public async Task<IEnumerable<T>> AddManyAsync<T, K>(IEnumerable<T> items)
+            where T : class, ICoreDal<K>
+        {
+            await _dbContext.Set<T>().AddRangeAsync(items);
+            await _dbContext.SaveChangesAsync();
+            return items;
+        }
+
+        public async Task<IEnumerable<T>> GetByFilterAsync<T, K>(Expression<Func<T, bool>> expression)
+            where T : class, ICoreDal<K>
+        {
+            return await _dbContext.Set<T>().Where(expression).ToListAsync();
+        }
+
+        public async Task<T> UpdateAsync<T, K>(T item)
+            where T : class, ICoreDal<K>
+        {
+            _dbContext.Entry(item).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return item;
+        }
+
+        public async Task<bool> DeleteAsync<T, K>(T item)
+            where T : class, ICoreDal<K>
+        {
+            _dbContext.Set<T>().Remove(item);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<T>> DeleteManyAsync<T, K>(IEnumerable<T> items)
+            where T : class, ICoreDal<K>
+        {
+            _dbContext.Set<T>().RemoveRange(items);
+            await _dbContext.SaveChangesAsync();
+            return items;
+        }
+
+        public void CreateDB()
+        {
+            _dbContext.Database.EnsureCreated();
+        }
+
+        public void DropDB()
+        {
+            _dbContext.Database.EnsureDeleted();
+        }
+    }
+
+    //TS via GN
+    //Method level store, type specific id
+    //Default method based int id store - general SQL usage
     public class EFStore : IEFStore
     {
         private readonly DbContext _dbContext;
@@ -80,77 +224,11 @@ namespace CoreSBShared.Universal.Infrastructure.EF
             _dbContext.Database.EnsureDeleted();
         }
     }
-
     
-    
-    //Class level store generic id
-    public class EFStoreG<T, K> : IEFStore<T, K>
-        where T : class, ICoreDal<K>
-    {
-        private readonly DbContext _dbContext;
-
-        public EFStoreG(DbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public async Task<T> GetByIdAsync(K id)
-        {
-            return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id.Equals(id));
-        }
-
-        public async Task<T> AddAsync(T item)
-        {
-            await _dbContext.Set<T>().AddAsync(item);
-            await _dbContext.SaveChangesAsync();
-            return item;
-        }
-
-        public async Task<IEnumerable<T>> AddManyAsync(IEnumerable<T> items)
-        {
-            await _dbContext.Set<T>().AddRangeAsync(items);
-            await _dbContext.SaveChangesAsync();
-            return items;
-        }
-
-        public async Task<IEnumerable<T>> GetByFilterAsync(Expression<Func<T, bool>> expression)
-        {
-            return await _dbContext.Set<T>().Where(expression).ToListAsync();
-        }
-
-        public async Task<T> UpdateAsync(T item)
-        {
-            _dbContext.Entry(item).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-            return item;
-        }
-
-        public async Task<bool> DeleteAsync(T item)
-        {
-            _dbContext.Set<T>().Remove(item);
-            await _dbContext.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<IEnumerable<T>> DeleteManyAsync(IEnumerable<T> items)
-        {
-            _dbContext.Set<T>().RemoveRange(items);
-            await _dbContext.SaveChangesAsync();
-            return items;
-        }
-
-        public void CreateDB()
-        {
-            _dbContext.Database.EnsureCreated();
-        }
-
-        public void DropDB()
-        {
-            _dbContext.Database.EnsureDeleted();
-        }
-    }
-
-    //class level store generic id int
+    //!!!failed on EF insert
+    //TS via GN
+    //class lvl
+    //int id
     public class EFStoreGInt : EFStoreG<ICoreDalIntg, int>, IEFStoreInt
     {
         private readonly DbContext _dbContext;
@@ -159,81 +237,6 @@ namespace CoreSBShared.Universal.Infrastructure.EF
             :base(dbContext)
         {
             _dbContext = dbContext;
-        }
-    }
-    
-    
-   
-    //method level store generic id int
-    public class EFStoreG : IEFStoreG
-    {
-        private readonly DbContext _dbContext;
-
-        public EFStoreG(DbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public async Task<T> GetByIdAsync<T, K>(K id)
-            where T : class, ICoreDal<K>
-        {
-            return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id.Equals(id));
-        }
-
-        public async Task<T> AddAsync<T, K>(T item)
-            where T : class, ICoreDal<K>
-        {
-            await _dbContext.Set<T>().AddAsync(item);
-            await _dbContext.SaveChangesAsync();
-            return item;
-        }
-
-        public async Task<IEnumerable<T>> AddManyAsync<T, K>(IEnumerable<T> items)
-            where T : class, ICoreDal<K>
-        {
-            await _dbContext.Set<T>().AddRangeAsync(items);
-            await _dbContext.SaveChangesAsync();
-            return items;
-        }
-
-        public async Task<IEnumerable<T>> GetByFilterAsync<T, K>(Expression<Func<T, bool>> expression)
-            where T : class, ICoreDal<K>
-        {
-            return await _dbContext.Set<T>().Where(expression).ToListAsync();
-        }
-
-        public async Task<T> UpdateAsync<T, K>(T item)
-            where T : class, ICoreDal<K>
-        {
-            _dbContext.Entry(item).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-            return item;
-        }
-
-        public async Task<bool> DeleteAsync<T, K>(T item)
-            where T : class, ICoreDal<K>
-        {
-            _dbContext.Set<T>().Remove(item);
-            await _dbContext.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<IEnumerable<T>> DeleteManyAsync<T, K>(IEnumerable<T> items)
-            where T : class, ICoreDal<K>
-        {
-            _dbContext.Set<T>().RemoveRange(items);
-            await _dbContext.SaveChangesAsync();
-            return items;
-        }
-
-        public void CreateDB()
-        {
-            _dbContext.Database.EnsureCreated();
-        }
-
-        public void DropDB()
-        {
-            _dbContext.Database.EnsureDeleted();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CoreSBBL.Logging.Infrastructure.GN;
-using CoreSBBL.Logging.Infrastructure.TC;
+using CoreSBBL.Logging.Infrastructure.TS;
 using CoreSBBL.Logging.Infrastructure.Mongo;
 using CoreSBBL.Logging.Services;
 using CoreSBShared.Registrations;

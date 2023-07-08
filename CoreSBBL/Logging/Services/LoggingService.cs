@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CoreSBBL.Logging.Infrastructure.TC;
+using CoreSBBL.Logging.Infrastructure.TS;
 using CoreSBBL.Logging.Infrastructure.Mongo;
 using CoreSBBL.Logging.Models.DAL.GN;
 using CoreSBBL.Logging.Models.TC.BL;
@@ -36,8 +36,9 @@ namespace CoreSBBL.Logging.Services
         //CoreSBBL.Logging.Models.DAL.TC
         private readonly ILogsEFStore _logsStore;
         private readonly ILogsEFStoreG<LogsDALEfGn, int> _logsEFStoreGInt;
-        private readonly ILogsEFStoreGInt _logsStoreGInt;
         private readonly ILogsEFStoreG _logsStoreGMethod;
+        
+        private readonly ILogsEFStoreGInt _logsStoreGInt;
         
         private IMongoStore _mongoStore { get; }
         private IElasticStoreNest _elasticStore { get; }

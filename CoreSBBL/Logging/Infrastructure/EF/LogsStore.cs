@@ -1,23 +1,14 @@
-﻿using CoreSBBL.Logging.Infrastructure.TC;
+﻿using CoreSBBL.Logging.Infrastructure.GN;
+using CoreSBBL.Logging.Infrastructure.TS;
 using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CoreSBBL.Logging.Infrastructure.TC
-{
-    //Method level store, typecontaining id 
-    public class LogsEFStore : EFStore, ILogsEFStore
-    {
-        public LogsEFStore(LogsContextTC logsContextTC) : base(logsContextTC)
-        {
-        }
-    }
-}
-
 namespace CoreSBBL.Logging.Infrastructure.GN
 {
-    //Class level store generic id
+    //GN
+    //Class level
     public class LogsEFStoreG<T,K> : EFStoreG<T, K>,
         ILogsEFStoreG<T, K>
         where T : class, ICoreDal<K>
@@ -27,18 +18,36 @@ namespace CoreSBBL.Logging.Infrastructure.GN
         }
     }
     
-    //class level store generic id int
-    public class LogsEFStoreGInt : EFStoreGInt, ILogsEFStoreGInt
+    //GN
+    //Method lvl
+    public class LogsEFStoreG : EFStoreG, ILogsEFStoreG
     {
-        public LogsEFStoreGInt(LogsContextGN dbContext) : base(dbContext)
+        public LogsEFStoreG(LogsContextGN dbContext) : base(dbContext)
         {
         }
     }
     
-    //method level store generic id int
-    public class LogsEFStoreG : EFStoreG, ILogsEFStoreG
+}
+
+namespace CoreSBBL.Logging.Infrastructure.TS
+{
+    //TS via GN
+    //Method lvl
+    public class LogsEFStore : EFStore, ILogsEFStore
     {
-        public LogsEFStoreG(LogsContextGN dbContext) : base(dbContext)
+        public LogsEFStore(LogsContextTC logsContextTC) : base(logsContextTC)
+        {
+        }
+    }
+
+    //???Incorrect inheritance 
+    // !!!failed on EF insert
+    // TS via GN
+    // class lvl
+    //class level store generic id int
+    public class LogsEFStoreGInt : EFStoreGInt, ILogsEFStoreGInt
+    {
+        public LogsEFStoreGInt(LogsContextGN dbContext) : base(dbContext)
         {
         }
     }
