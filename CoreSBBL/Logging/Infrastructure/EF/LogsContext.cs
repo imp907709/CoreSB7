@@ -57,18 +57,11 @@ namespace CoreSBBL.Logging.Infrastructure.GN
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<CoreDalIntg>().HasKey(c => c.Id);
-            //RegisterModel<LogsDALEFCoreGN>(modelBuilder, "LogsGN");
-
             modelBuilder.Entity<LogsDALEfGn>().HasKey(s => s.Id);
             modelBuilder.Entity<LogsDALEfGn>().ToTable("LogGN");
             modelBuilder.Entity<LogsDALEfGn>().Property(p => p.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<LogsDALEfGn>().Property(p => p.Id).HasColumnName("Id");
-            
-            //modelBuilder.Entity<LogsDALEFCoreGN>().ToTable("LogsGN");
-            // modelBuilder.Entity<LogsDALEFCoreGN>().Property(p => p.Id).ValueGeneratedOnAdd();
-            // modelBuilder.Entity<LogsDALEFCoreGN>().HasKey(p => p.Id).HasName($"Id");
-            // modelBuilder.Entity<LogsDALEFCoreGN>().Property(p => p.Id).HasColumnName("Id");
+
         }
 
         private void RegisterModel<T>(ModelBuilder modelBuilder, string Name)

@@ -35,7 +35,6 @@ namespace CoreSBBL.Logging.Infrastructure.GN
         }
     }
     
-    
     //method level store generic id int
     public class LogsEFStoreG : EFStoreG, ILogsEFStoreG
     {
