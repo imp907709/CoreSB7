@@ -39,7 +39,7 @@ namespace CoreSBShared.Universal.Infrastructure.Models
     {
         public ObjectId Id { get; set; }
     }
-    public class CoreDalStrg : ICoreDalStrg
+    public class CoreDalStrg : ICoreDalGnStr
     {
         public string Id { get; set; }
     }
@@ -62,15 +62,15 @@ namespace CoreSBShared.Universal.Infrastructure.Models
     
     //TS
     //Core dal type specific ids
-    public class CoreDalIntg : CoreCreated, ICoreDalIntg
+    public class CoreDalGnInt : CoreCreated, ICoreDalGnInt
     {
         public int Id { get; set; }
     }
-    public class CoreDalobjg : CoreCreated, ICoreDalObjg
+    public class CoreDalGnObj : CoreCreated, ICoreDalObjg
     {
         public ObjectId Id { get; set; }
     }
-    public class CoreDalStringg : CoreCreated, ICoreDalStrg
+    public class CoreDalStringg : CoreCreated, ICoreDalGnStr
     {
         public string Id { get; set; }
     }

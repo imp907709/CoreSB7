@@ -5,7 +5,7 @@ using CoreSBBL.Logging.Infrastructure.TS;
 using CoreSBBL.Logging.Infrastructure.Mongo;
 using CoreSBBL.Logging.Models.DAL.GN;
 using CoreSBBL.Logging.Models.TC.BL;
-using CoreSBBL.Logging.Models.DAL.TC;
+using CoreSBBL.Logging.Models.DAL.TS;
 using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
@@ -17,27 +17,39 @@ namespace CoreSBBL.Logging.Services
     public class LoggingService : ILoggingService
     {
         public LoggingService( 
-            ILogsEFStore logsStore,
-            ILogsEFStoreG<LogsDALEfGn, int> logsEFStoreGInt,
-            ILogsEFStoreGInt logsStoreGInt,
+            ILogsEFStoreG<LoggingDalEfInt, int> logsEFStoreGInt,
             ILogsEFStoreG logsStoreGMethod, 
+            
+            ILogsEFStore logsStore,
+            
+            ILogsEFStoreGInt logsStoreGInt,
+         
             ILoggingMongoStore mongoStore, IElasticStoreNest elasticStore)
         {
-            _logsStore = logsStore;
             _logsEFStoreGInt = logsEFStoreGInt;
-            _logsStoreGInt = logsStoreGInt;
             _logsStoreGMethod = logsStoreGMethod;
             
-            
+            _logsStore = logsStore;
+            _logsStoreGInt = logsStoreGInt;
+
             _mongoStore = mongoStore;
             _elasticStore = elasticStore;
         }
         
-        //CoreSBBL.Logging.Models.DAL.TC
-        private readonly ILogsEFStore _logsStore;
-        private readonly ILogsEFStoreG<LogsDALEfGn, int> _logsEFStoreGInt;
+        //GN
+        //Class level
+        private readonly ILogsEFStoreG<LoggingDalEfInt, int> _logsEFStoreGInt;
+        //GN
+        //Method lvl
         private readonly ILogsEFStoreG _logsStoreGMethod;
         
+        //CoreSBBL.Logging.Models.DAL.TC
+        //TS via GN
+        //Method lvl
+        private readonly ILogsEFStore _logsStore;
+
+        // TS via GN
+        // class lvl
         private readonly ILogsEFStoreGInt _logsStoreGInt;
         
         private IMongoStore _mongoStore { get; }
@@ -51,18 +63,19 @@ namespace CoreSBBL.Logging.Services
 
             _elasticStore.CreateDB();
 
-            // type containing id store
-            LogsDALEf _item = new() {Message = item.Message};
-            var resp = await _logsStore.AddAsync(_item);
-
-            // generic int id store
-            LogsDALEfGn _itemGN1 = new() {Message = item.Message};
+            
+            
+            //GN id Class level
+            LoggingDalEfInt _itemGN1 = new() {Message = item.Message};
             var respG = await _logsEFStoreGInt.AddAsync(_itemGN1);
             
-            LogsDALEfGn _itemGN3 = new() {Message = item.Message};
-            var respGi = await _logsStoreGMethod.AddAsync<LogsDALEfGn,int>(_itemGN3);
+            //GN id method lvl
+            LoggingDalEfInt _itemGN3 = new() {Message = item.Message};
+            var respGi = await _logsStoreGMethod.AddAsync<LoggingDalEfInt,int>(_itemGN3);
             
-            
+            //TS via GN method lvl
+            LogsDALEf _item = new() {Message = item.Message};
+            var resp = await _logsStore.AddAsync(_item);
             
             //needed seperate model registration, inheritance err
             // LogsDALEfGn _itemGN2 = new() {Message = item.Message};

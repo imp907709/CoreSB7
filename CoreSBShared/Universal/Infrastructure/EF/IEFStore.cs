@@ -60,8 +60,8 @@ namespace CoreSBShared.Universal.Infrastructure.EF
         Task<T> AddAsync<T>(T item) where T : class;
         Task<IEnumerable<T>> AddManyAsync<T>(IEnumerable<T> items) where T : class;
    
-        Task<T?> GetByIdAsync<T>(int id) where T : class, ICoreDalIntg;
-        Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) where T : class, ICoreDalIntg;
+        Task<T?> GetByIdAsync<T>(int id) where T : class, ICoreDalGnInt;
+        Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression) where T : class, ICoreDalGnInt;
         
         Task<T> UpdateAsync<T>(T item) where T : class;
         
@@ -72,7 +72,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF
     //!!!failed on EF insert
     //TS via GN
     //class lvl
-    public interface IEFStoreInt : IEFStore<ICoreDalIntg, int>
+    public interface IEFStoreInt : IEFStore<ICoreDalGnInt, int>
     {
     }
 }
