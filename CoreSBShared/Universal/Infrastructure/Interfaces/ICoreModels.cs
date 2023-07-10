@@ -13,11 +13,11 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
         public TKey Id { get; set; }
     }
     
-    public interface ICoreDalIntg : ICoreDal<int>
+    public interface ICoreDalGnInt : ICoreDal<int>
     {
     }
 
-    public interface ICoreDalStrg : ICoreDal<string>
+    public interface ICoreDalGnStr : ICoreDal<string>
     {
     }
 

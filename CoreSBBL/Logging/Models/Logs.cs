@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CoreSBBL.Logging.Models.DAL.TC;
+using CoreSBBL.Logging.Models.DAL.TS;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using CoreSBShared.Universal.Infrastructure.Models;
 
 // Type containing ids like {idInt, idString, id Object}
-namespace CoreSBBL.Logging.Models.DAL.TC
+namespace CoreSBBL.Logging.Models.DAL.TS
 {
     // DOMAIN DAL TC
     // model containing domain fields, and id impl details like (int, string obj )
@@ -115,20 +115,22 @@ namespace CoreSBBL.Logging.Models.DAL.TC
 }
 
 
+
 // Generic ids ICoreDal<TKey>
 // like: ICoreDal<int> ICoreDal<string>
 namespace CoreSBBL.Logging.Models.DAL.GN
 {
-    public interface ILogsDALCore: ICoreCreated
+    public interface IMessage: ICoreCreated
     {
         public string? Message { get; set; } 
     }
     
-    public class LogsDALEfGn : CoreDalIntg, ILogsDALCore
+    public class LoggingDalEfInt : CoreDalGnInt, IMessage
     {
         public string? Message { get; set; }
     }
 }
+
 
 
 // Business layer models

@@ -167,7 +167,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF
             return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
-        public async Task<T?> GetByIdAsync<T>(int id) where T : class, ICoreDalIntg
+        public async Task<T?> GetByIdAsync<T>(int id) where T : class, ICoreDalGnInt
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -188,7 +188,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF
         }
 
         public async Task<IEnumerable<T>> GetByFilterAsync<T>(Expression<Func<T, bool>> expression)
-            where T : class, ICoreDalIntg
+            where T : class, ICoreDalGnInt
         {
             return await _dbContext.Set<T>().Where(expression).ToListAsync();
         }
@@ -229,7 +229,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF
     //TS via GN
     //class lvl
     //int id
-    public class EFStoreGInt : EFStoreG<ICoreDalIntg, int>, IEFStoreInt
+    public class EFStoreGInt : EFStoreG<ICoreDalGnInt, int>, IEFStoreInt
     {
         private readonly DbContext _dbContext;
 

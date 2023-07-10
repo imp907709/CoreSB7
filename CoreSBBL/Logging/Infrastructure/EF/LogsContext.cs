@@ -1,5 +1,5 @@
 ﻿using CoreSBBL.Logging.Models.DAL.GN;
-using CoreSBBL.Logging.Models.DAL.TC;
+using CoreSBBL.Logging.Models.DAL.TS;
 using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using CoreSBShared.Universal.Infrastructure.Models;
@@ -45,6 +45,7 @@ namespace CoreSBBL.Logging.Infrastructure.TS
     }
 }
 
+//Generic ids
 namespace CoreSBBL.Logging.Infrastructure.GN
 {
     public class LogsContextGN : DbContext
@@ -53,19 +54,19 @@ namespace CoreSBBL.Logging.Infrastructure.GN
         {
         }
         
-        public virtual DbSet<LogsDALEfGn> LoggingGN { get; set; }
+        public virtual DbSet<LoggingDalEfInt> LoggingGN { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LogsDALEfGn>().HasKey(s => s.Id);
-            modelBuilder.Entity<LogsDALEfGn>().ToTable("LogGN");
-            modelBuilder.Entity<LogsDALEfGn>().Property(p => p.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<LogsDALEfGn>().Property(p => p.Id).HasColumnName("Id");
+            modelBuilder.Entity<LoggingDalEfInt>().HasKey(s => s.Id);
+            modelBuilder.Entity<LoggingDalEfInt>().ToTable("LogGN");
+            modelBuilder.Entity<LoggingDalEfInt>().Property(p => p.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<LoggingDalEfInt>().Property(p => p.Id).HasColumnName("Id");
 
         }
 
         private void RegisterModel<T>(ModelBuilder modelBuilder, string Name)
-            where T :  CoreDalIntg
+            where T :  CoreDalGnInt
         {
             modelBuilder.Entity<T>().ToTable(Name);
             modelBuilder.Entity<T>().Property(p => p.Id).ValueGeneratedOnAdd();
