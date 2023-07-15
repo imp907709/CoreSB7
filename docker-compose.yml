@@ -73,6 +73,18 @@ services:
     ports: 
         - 27017:27017
 
+  # rabbitmq:
+    # container_name: rabbitSB
+    # image: rabbitmq:3
+    # ports:
+        # - 5673:5672
+        # - 15673:15672
+    # networks: 
+        # - elastic
+    # environment:
+        # RABBITMQ_USER: user
+        # RABBITMQ_PASSWORD: user
+  
 # intraservice visibility
 networks:
     elastic:
