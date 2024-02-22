@@ -42,7 +42,7 @@ namespace CoreSBBL
             builder.Services.AddDbContext<LogsContextTC>(options =>
 
                 //options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
-                options.UseSqlServer(ConnectionsRegister.Connections.MSSQLLOCAL));
+                options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
             builder.Services.AddScoped<DbContext, LogsContextTC>();
 
         }
@@ -51,7 +51,7 @@ namespace CoreSBBL
             builder.Services.AddDbContext<LogsContextGN>(options =>
 
                 //options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
-                options.UseSqlServer(ConnectionsRegister.Connections.MSSQLLOCAL));
+                options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
             builder.Services.AddScoped<DbContext, LogsContextGN>();
 
         }

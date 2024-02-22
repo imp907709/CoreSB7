@@ -17,6 +17,7 @@ namespace CoreSBServer.Controllers
         [Route("test")]
         public async Task<ActionResult> Test()
         {
+            await Task.Delay(1);
             return Ok("up and running");
         }
     }

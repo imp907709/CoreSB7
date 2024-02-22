@@ -2,7 +2,8 @@
 
 # SOLID Vertical slice + DDD + layered/onion/clean
 
-## Packages to build core:
+### Packages to build core:
+
 -------------------------------------------------------
 
 ```
@@ -26,7 +27,8 @@ dotnet add package Elastic.Clients.Elasticsearch
 dotnet add package Elasticsearch.Net 
 ```
 
-## Docker CLI infrastructure init
+### Docker CLI infrastructure init
+
 -------------------------------------------------------
 
 ```
@@ -70,7 +72,8 @@ dotnet add package Elasticsearch.Net
 
 ```
 
-## EF migration init
+### EF migration init
+
 -------------------------------------------------------
 
 ```
