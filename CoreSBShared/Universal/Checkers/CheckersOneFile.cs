@@ -124,7 +124,7 @@ namespace NetPlatformCheckers
             StringsCheck.GO();
 
             AbstractClassCheck.GO();
-            //TasksToFuckupCPU.GO();
+            // FakeThreadSleepForTest.GO();
 
             EqualIsCheck.GO();
             OverrideCheck.GO();
@@ -2132,7 +2132,7 @@ namespace NetPlatformCheckers
         }
     }
 
-    public class TasksToFuckupCPU
+    public class FakeThreadSleepForTest
     {
         public static void GO()
         {
