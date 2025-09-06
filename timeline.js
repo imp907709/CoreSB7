@@ -3,33 +3,8 @@
 Timeline:
 -------------------------------------------------------
 
-DONE:[
-
-    chat: [
-        <- done 09.06.2019 1h45m -> signalR and auth user and messages binded
-    ] ~1h45m in 1d
-    
-    worker: [
-        <- done 10.06.2019 01: 24 1h31m -> signalR work queued,started,finished moque
-        <- done 10.06.2019 22: 52 1h12m -> signalR work queue and front edited
-    ] ~2h 40m in 1d
-
-    orders: [
-        <- done 13.06.2019 5h -> Ef core Orders model, migration and seed Many-to-many
-        <- done 14.06.2019 1h20m -> cqrs add and multiple context Autofac resolve
-        <- done 14.06.2019 40m -> order created
-        <- done 14.06.2019 30m -> props changed
-        <- done 13.06.2019 5h06m -> Ef core Orders model, migration and seed Many-to-many 
-        <- done 14.06.2019 1h20m -> cqrs add and multiple context Autofac resolve
-        <- done 14.06.2019 40m -> order created
-        <- done 15.06.2019 40m -> order accounter interfaces
-        <- done 15.06.2019 1h10m -> order new API, BLL interfaces
-        <- done 15.06.2019 1h5m -> order deliverer, clenup
-        <- done 15.06.2019 1h10m -> order mapping
-        <- done 15.06.2019 1h-> mapping changed
-
-      
-    ] ~11h in 3d
+DONE
+[
 
     crmvcsb: [
 
@@ -86,55 +61,34 @@ DONE:[
 
     ] ~37h 15m in 7d
 
-
-	newOrder :
-	[
-
-		<- 15.07.2019 1h -> new order model
-        <- 16.07.2019 1h -> new order migration
-        <- 16.07.2019 2h -> new order migration, address initialize, clearup
-        
-        <- 17.07.2019 45m -> new order migration cleanup
-		<- 16.07.2019 1h -> new order migration
-		<- 16.07.2019 1h -> new order migration
-
-		<- 17.07.2019 45m -> new order migration cleanup
-
-		<- 22.07.2019 1h -> new order currenciesDAL model
-
-        <- 24.07.2019 1h -> new order currencies manager
-        
-        <- 25.07.2019 1h 30m -> currencies manager API resp
-
-		<- 26.09.2019 1h 30m -> inmemmory, SQL, SQL, SQLlite conditional contexts
-
-		<- 19.11.2019 3h 30m -> Autofac multiple Irepositories registration
-
-		<- 29.03.2020 3h -> Ilogger, Iserializer, variables classes with variable.json
-    ]
-    ~8h 15m in 7days
-
     master:[
-        <- done 15.06.2019 12:35-16:02 3h30m -> git merge crmvcsb -> master, order -> master, cleanup master,crmvcsb,order
-        
-        <- done 01.07.2019 4h -> KATAs heapsort 
-        <- done 01.07.2019 1h -> test server project multiple build tasks, and integrate run
-        <- done 1h -> integration tests        
-        
-        <- done 02.07.2019 1h -> integration tests
-        <- done 02.07.2019 2h -> quicksort        
-        <- done 02.07.2019 1h10m -> heapsort
-        <- done 02.07.2019 1h45m -> linked nodes reverce, polindrome check
 
-        <- done 04.07.2019 2h30m -> merge sort
+        2019 [
+            <- done 15.06.2019 12:35-16:02 3h30m -> git merge crmvcsb -> master, order -> master, cleanup master,crmvcsb,order
         
-        <- done 05.07.2019 1h -> insertion sort 
-        <- done 05.07.2019 1h -> sorting tests
+            <- done 01.07.2019 4h -> KATAs heapsort 
+            <- done 01.07.2019 1h -> test server project multiple build tasks, and integrate run
+            <- done 1h -> integration tests        
+            
+            <- done 02.07.2019 1h -> integration tests
+            <- done 02.07.2019 2h -> quicksort        
+            <- done 02.07.2019 1h10m -> heapsort
+            <- done 02.07.2019 1h45m -> linked nodes reverce, polindrome check
+    
+            <- done 04.07.2019 2h30m -> merge sort
+            
+            <- done 05.07.2019 1h -> insertion sort 
+            <- done 05.07.2019 1h -> sorting tests
+    
+            <- done 07.07.2019 2h insert sort rep ->
+            <- done 07.07.2019 2h heapsort above heapify ->
+            
+        ]
+        
+        // 2025
+        <- done 06.09.2025 readme revision 50m ->
 
-        <- done 07.07.2019 2h insert sort rep ->
-        <- done 07.07.2019 2h heapsort above heapify ->
-
-    ]~ 23h in 6 days
+    ]~ 24h in 6 days
     	
 	TMPL
 	[
@@ -245,10 +199,26 @@ DONE:[
     ]
     ~28h in 4d
 
-|- 2024
-|   |- 02
-|   |   |- > ordering, docker start h1
-~ h1
 
-]~207h 50m in 57d
+]
+
+STAT {
+	
+    years:{
+        2019: ~61h 15m
+        2020: ~19h 00m
+        2021: ~15h 30m
+        2022: ~26h 00m
+        2023: ~28h 00m
+
+        2024:
+            02: ~0h
+    }
+
+    2025:
+    09: ~1h
+
+}~150h 45m in 58d
+
+
 
