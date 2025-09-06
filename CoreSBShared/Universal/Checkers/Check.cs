@@ -12,7 +12,7 @@ using UtilsCustom;
 
 namespace UtilsCustom
 {
-    //utilities, wrapper
+    // utilities, wrapper
     public class Utils
     {
         public static void Split(int[] arr, out int[] l, out int[] r)
