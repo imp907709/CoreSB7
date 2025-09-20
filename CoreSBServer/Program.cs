@@ -23,4 +23,7 @@ app.Registration();
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
 logger.LogInformation("Application started.");
 
+// Run initial checks before app starts
+builder.RunInitial();
+
 app.Run();

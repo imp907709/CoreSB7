@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using InfrastructureCheckers;
 using UtilsCustom;
 
 namespace UtilsCustom
@@ -152,6 +153,123 @@ namespace InfrastructureCheckers
 
             //true
             bool b5 = s3 == s5;
+        }
+
+        public static void SideBySideComparison()
+        {
+            string a = "some string";
+            string b = "some string";
+            
+            // all true
+            var c1 = a == b;
+            var c2 = a.Equals(b);
+            var c3 = object.ReferenceEquals(a, b);
+            
+            Console.WriteLine($"str str == {c1}");
+            Console.WriteLine($"str str equals {c2}");
+            Console.WriteLine($"str str refeq {c3}");
+            Console.WriteLine(Environment.NewLine);
+            
+            string a1 = "some string";
+            string b1 = new string("some string");
+            
+            // true - value comparison
+            var c4 = a1 == b1;
+            var c5 = a1.Equals(b1);
+            // false - different reference
+            var c6 = object.ReferenceEquals(a1, b1);
+            
+            // true
+            Console.WriteLine($"str str new == {c4}");
+            Console.WriteLine($"str str new equals {c5}");
+            
+            // false
+            Console.WriteLine($"str str new refeq {c6}");
+            Console.WriteLine(Environment.NewLine);
+
+
+            
+            string a2 = "some string";
+            object b2 = "some string";
+
+            // true - value comparison overloaded
+            var c7 = a2 == (string)b2;
+            var c8 = a2.Equals(b2);
+            // true - value comparison in string overload
+            var c9 = b2.Equals(a2);
+            // true - both point to same interned string
+            var c10 = object.ReferenceEquals(a2, b2);
+            
+            // all true
+            Console.WriteLine($"str obj str == {c7}");
+            Console.WriteLine($"str obj str equals {c8}");
+            Console.WriteLine($"obj str str equals {c9}");
+            Console.WriteLine($"str obj str refeq {c10}");
+            Console.WriteLine(Environment.NewLine);
+
+
+            
+            object a3 = "some string";
+            object b3 = "some string";
+
+            var b11 = a3 == b3;
+            var b12 = a3.Equals(b3);
+            var b13 = object.ReferenceEquals(a3, b3);
+            
+            // all true - as it same reference
+            Console.WriteLine($"obj str obj str == {b11}");
+            Console.WriteLine($"obj str obj equals == {b12}");
+            Console.WriteLine($"obj str obj ref equals == {b13}");
+            Console.WriteLine(Environment.NewLine);
+            
+            
+            string a4 = "some string";
+            object b4 = new string("some string");
+
+            var b14 = a4 == b4;
+            var b15 = a4.Equals(b4);
+            var b16 = b4.Equals(a4);
+            var b17 = object.ReferenceEquals(a4, b4);
+            
+            // true - by value as runtime type is string
+            Console.WriteLine($"str obj new str == {b14}");
+            Console.WriteLine($"str obj new str equals == {b15}");
+            Console.WriteLine($"obj new str str obj str equals == {b16}");
+            
+            // fale - as its another reference
+            Console.WriteLine($"str obj new str ref eq {b17}");
+            Console.WriteLine(Environment.NewLine);
+            
+            
+            // not created new reference
+            string a5 = "String";
+            string b5 = nameof(System.String);
+            string b6 = string.Intern("String");
+            
+            var b18 = object.ReferenceEquals(a5, b5);
+            var b19 = object.ReferenceEquals(b5, b6);
+            
+            Console.WriteLine($"str str name refeq :{b18}");
+            Console.WriteLine($"str str intern refeq :{b19}");
+            
+            
+            
+            // created new reference
+            var a7 = new string("hello");
+            var a8 = new string(new char[]{'h','e','l','l','o'});
+            var a9 = string.Copy("hello");
+            var a10 = "hello some".Substring(5);
+            var a11 = "hel" + "lo";
+            var a12 = "hella".Replace("a", "o");
+            
+            // all - false - new ref created
+            // 1 to 2 ... last to 1 - a
+            var b20 = object.ReferenceEquals(a7, a8);
+            var b21 = object.ReferenceEquals(a8, a9);
+            var b22 = object.ReferenceEquals(a9, a10);
+            var b23 = object.ReferenceEquals(a10, a11);
+            var b24 = object.ReferenceEquals(a11, a12);
+            var b25 = object.ReferenceEquals(a12, a7);
         }
     }
 
@@ -1218,7 +1336,6 @@ namespace Algorithms
                     //rep.Add($"Algorithm: {ms.GetType().Name}; Result: {res}; Range: {rng}; Elapsed:{sw.Elapsed}; Ratio:{ratio};");
                     //rep.Add($"{alg.Target} {res} {rng} {etcks} {ratio}");
                     rep.Add(
-
                         //string.Format("{0,45} | {1,7} | {2,7} | {3,7} | {4,7}", alg.Target, res, rng, etcks, ratio)
                         StatFormat(alg.Target.ToString(), res.ToString(), rng.ToString(), etcks.ToString(),
                             ratio.ToString())
@@ -2566,6 +2683,148 @@ namespace Multithreadings
         {
             Progressions f = new Progressions();
             await f.CountCompare();
+        }
+    }
+}
+
+namespace Interviews
+{
+    public class InterviewA
+    {
+        public void GO()
+        {
+            Console.WriteLine("InterviewA run");
+            methodA();
+        }
+
+        public void methodA()
+        {
+            StringCompare.SideBySideComparison();
+        }
+    }
+
+    public class AlgGPT
+    {
+        public bool IsPalindrome(string s)
+        {
+            int l = 0, r = s.Length - 1;
+            while (l < r)
+            {
+                if (s[l] != s[r]) return false;
+                l++;
+                r--;
+            }
+
+            return true;
+        }
+
+        public bool IsAnagram(string s1, string s2)
+        {
+            if (s1 == null || s2 == null) return false;
+            if (s1.Length != s2.Length) return false;
+
+            var count = new Dictionary<char, int>();
+
+            foreach (var c in s1)
+            {
+                if (count.ContainsKey(c))
+                    count[c]++;
+                else
+                    count[c] = 1;
+            }
+
+            foreach (var c in s2)
+            {
+                if (!count.ContainsKey(c)) return false;
+                count[c]--;
+                if (count[c] < 0) return false;
+            }
+
+            return true;
+        }
+
+        public int[] TwoSum(int[] nums, int target)
+        {
+            var dict = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (dict.ContainsKey(target - nums[i]))
+                    return new int[] {dict[target - nums[i]], i};
+                dict[nums[i]] = i;
+            }
+
+            return new int[0];
+        }
+
+
+        public class Node<T>
+        {
+            public T Value;
+            public Node<T> Next;
+
+            public Node(T val)
+            {
+                Value = val;
+                Next = null;
+            }
+        }
+
+        public Node<T> ReverseList<T>(Node<T> head)
+        {
+            Node<T> prev = null, curr = head;
+            while (curr != null)
+            {
+                Node<T> next = curr.Next;
+                curr.Next = prev;
+                prev = curr;
+                curr = next;
+            }
+
+            return prev;
+        }
+
+        public int FactorialRec(int n)
+        {
+            if (n <= 1) return 1;
+            return n * FactorialRec(n - 1);
+        }
+
+        public long Factorial(int n)
+        {
+            if (n < 0) throw new ArgumentException("n must be non-negative");
+            long result = 1;
+            for (int i = 2; i <= n; i++)
+                result *= i;
+
+            return result;
+        }
+
+        public bool IsValid(string s)
+        {
+            var st = new Stack<char>();
+            foreach (var c in s)
+            {
+                if (c == '(' || c == '{' || c == '[') st.Push(c);
+                else
+                {
+                    if (st.Count == 0) return false;
+                    char top = st.Pop();
+                    if (c == ')' && top != '(') return false;
+                    if (c == ']' && top != '[') return false;
+                    if (c == '}' && top != '{') return false;
+                }
+            }
+
+            return st.Count == 0;
+        }
+
+        public bool IsPowerOfTwo(int n)
+        {
+            // Only powers of two have a single 1 in binary
+            // n : 10000n
+            // so its just mask of 1000n and 01111n
+            return n > 0 
+                   && (n & (n - 1)) == 0;
         }
     }
 }
