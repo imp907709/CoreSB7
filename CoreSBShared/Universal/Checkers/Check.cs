@@ -148,10 +148,10 @@ namespace InfrastructureCheckers
             object s4 = new string("s2");
             string s5 = "s2";
 
-            //false
+            // false
             bool b4 = s3 == s4;
 
-            //true
+            // true
             bool b5 = s3 == s5;
         }
 
@@ -223,15 +223,33 @@ namespace InfrastructureCheckers
             Console.WriteLine(Environment.NewLine);
             
             
+            object a30 = "some string";
+            object b30 = new string("some string");
+
+            // false - both objects so ref comparison
+            var c20 = a30 == b30;
+            
+            // true
+            var c21 = a30.Equals(b30);
+            var c22 = b30.Equals(a30);
+            
+            // false
+            var c23 = object.ReferenceEquals(a30, b30);
+
+
             string a4 = "some string";
             object b4 = new string("some string");
 
+            // false - one is object - so ref comparison
             var b14 = a4 == b4;
+            
+            // true
             var b15 = a4.Equals(b4);
             var b16 = b4.Equals(a4);
+            
+            // false
             var b17 = object.ReferenceEquals(a4, b4);
             
-            // true - by value as runtime type is string
             Console.WriteLine($"str obj new str == {b14}");
             Console.WriteLine($"str obj new str equals == {b15}");
             Console.WriteLine($"obj new str str obj str equals == {b16}");
@@ -251,6 +269,70 @@ namespace InfrastructureCheckers
             
             Console.WriteLine($"str str name refeq :{b18}");
             Console.WriteLine($"str str intern refeq :{b19}");
+            
+            
+            
+            // BUT - even with new ref, internal const created with one ref
+            var a40 = "hello";
+            var a41 = "hel" + "lo";
+            var a42 = "he" + "llo";
+
+            // true - same constant
+            var b40 = object.ReferenceEquals(a40, a41);
+            var b41 = object.ReferenceEquals(a41, a42);
+            
+            
+            // AND another BUT - no const created 
+            var a43 = "hel";
+            var a44 = "lo";
+            var a45 = a43 + a44;
+            
+            // false - no constant created
+            var b42 = object.ReferenceEquals(a40, a45);
+            
+            
+            
+            string a50 = new string(new char[] { 'f','o','o' });
+            string a51 = string.Intern(a);
+            
+            // true
+            bool b50 = a == b;
+            bool b51 = object.ReferenceEquals(a, b);
+            
+            
+            
+            string a60 = "hello";
+            string b60 = "hel";
+            string c60 = b60 + "lo";
+            string d60 = string.Intern(c60);
+
+            // false 
+            var r1 = object.ReferenceEquals(a60, c60);
+            // true - reference to string with this value exists 
+            var r2 = object.ReferenceEquals(a60, d60);
+            // false - intern ref to another val
+            var r5 = object.ReferenceEquals(c60, d60);
+            
+            // true
+            var r3 = a60 == c60;
+            var r4 = a60 == d60;
+
+
+            var a70 = "hel";
+            var a71 = "lo";
+            var a72 = a70 + a71;
+            var a73 = a70 + a71;
+
+            var a74 = string.Intern(a73);
+            var a75 = string.Intern(a72);
+            
+            // false 
+            var b72 = object.ReferenceEquals(a72, a73);
+            // false
+            var b70 = object.ReferenceEquals(a74, a73);
+
+            // true
+            var b71 = object.ReferenceEquals(a74, a75);
             
             
             
