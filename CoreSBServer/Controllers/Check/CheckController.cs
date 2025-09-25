@@ -1,5 +1,8 @@
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using CoreSBServer.Controllers.Check.multithreading;
+using Interviews;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreSBServer.Controllers
@@ -98,6 +101,23 @@ namespace CoreSBServer.Controllers
         public IActionResult GetLinqRnd()
         {
             var res = CheckLibs.LinqRnd();
+            return Ok(res);
+        }
+
+        [HttpGet]
+        [Route("TestResponsesSeq")]
+        public async Task<IActionResult> TestResponsesSeq()
+        {
+            var tEx = new ThreadingExample();
+            var res = await tEx.TestResponses();
+            return Ok(res);
+        }
+        [HttpGet]
+        [Route("TestResponsesParallel")]
+        public async Task<IActionResult> TestResponsesParallel(CancellationToken ct)
+        {
+            var tEx = new ThreadingExample();
+            var res = await tEx.TestResponsesParallel(ct);
             return Ok(res);
         }
     }
