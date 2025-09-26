@@ -117,7 +117,7 @@ namespace CoreSBServer.Controllers
         public async Task<IActionResult> TestResponsesParallel(CancellationToken ct)
         {
             var tEx = new ThreadingExample();
-            var res = await tEx.TestResponsesParallel(ct);
+            var res = await tEx.GetHttp();
             return Ok(res);
         }
     }
