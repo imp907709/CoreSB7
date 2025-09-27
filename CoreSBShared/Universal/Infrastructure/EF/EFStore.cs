@@ -240,3 +240,45 @@ namespace CoreSBShared.Universal.Infrastructure.EF
         }
     }
 }
+
+namespace CoreSBShared.Universal.Infrastructure.EF.Store
+{
+    public class EFStoreGeneric<TContext> 
+        : IEFStoreGeneric<TContext> where TContext : DbContext
+    {
+        private readonly TContext _context;
+
+        public EFStoreGeneric()
+        {}
+
+        public EFStoreGeneric(TContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<T> AddItemAsync<T>(T item) 
+            where T: class
+        {
+            var res = await _context.Set<T>().AddAsync(item);
+            if (res?.Entity != null)
+                await _context.SaveChangesAsync();
+
+            return res?.Entity;
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
+        
+        public async Task<bool> CreateDB()
+        {
+            return await _context.Database.EnsureCreatedAsync();
+        }
+
+        public async Task<bool> DropDB()
+        {
+            return await _context.Database.EnsureDeletedAsync();
+        }
+    }
+}

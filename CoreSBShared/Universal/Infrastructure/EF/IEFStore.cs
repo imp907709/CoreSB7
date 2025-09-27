@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreSBShared.Universal.Infrastructure.EF
 {
@@ -74,5 +75,26 @@ namespace CoreSBShared.Universal.Infrastructure.EF
     //class lvl
     public interface IEFStoreInt : IEFStore<ICoreDalGnInt, int>
     {
+    }
+}
+
+namespace CoreSBShared.Universal.Infrastructure.EF.Store
+{
+    public interface IEFStoreCore<TContext> : IStore
+        where TContext : DbContext
+    {
+    }
+
+    public interface IEFStoreGeneric<TContext>
+        where TContext : DbContext
+    {
+        Task<T> AddItemAsync<T>(T item)
+            where T : class;
+
+        Task<int> SaveChangesAsync();
+
+        Task<bool> CreateDB();
+
+        Task<bool> DropDB();
     }
 }

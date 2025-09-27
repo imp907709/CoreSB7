@@ -32,14 +32,20 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
     {
         public int Id { get; set; }
     }
-    public interface ICoreDalObj
-    {
-        public ObjectId Id { get; set; }
-    }
     public interface ICoreDalString
     {
         public string Id { get; set; }
     }
+    public interface ICoreDalGuid
+    {
+        public Guid Id { get; set; }
+    }
+    
+    public interface ICoreDalObj
+    {
+        public ObjectId Id { get; set; }
+    }
+  
 
     
 
@@ -50,7 +56,11 @@ namespace CoreSBShared.Universal.Infrastructure.Interfaces
         public DateTime? Created { get; set; }
         public DateTime? Modified { get; set; }
     }
-    
+        
+    public interface IMessage
+    {
+        public string? Message { get; set; } 
+    }
     
     
     //infrastructure specific

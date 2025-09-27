@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoreSBBL.Logging.Infrastructure.Generic;
 using CoreSBBL.Logging.Infrastructure.TS;
 using CoreSBBL.Logging.Infrastructure.Mongo;
 using CoreSBBL.Logging.Models.DAL.GN;
 using CoreSBBL.Logging.Models.TC.BL;
 using CoreSBBL.Logging.Models.DAL.TS;
+using CoreSBBL.Logging.Models.TC.DAL;
 using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
@@ -14,75 +16,52 @@ using CoreSBShared.Universal.Infrastructure.Mongo;
 
 namespace CoreSBBL.Logging.Services
 {
-    public class LoggingService : ILoggingService
+    public class LoggingService : ILoggingServiceNew
     {
-        public LoggingService( 
-            ILogsEFStoreG<LoggingDalEfInt, int> logsEFStoreGInt,
-            ILogsEFStoreG logsStoreGMethod, 
-            
-            ILogsEFStore logsStore,
-            
-            ILogsEFStoreGInt logsStoreGInt,
-         
-            ILoggingMongoStore mongoStore, IElasticStoreNest elasticStore)
-        {
-            _logsEFStoreGInt = logsEFStoreGInt;
-            _logsStoreGMethod = logsStoreGMethod;
-            
-            _logsStore = logsStore;
-            _logsStoreGInt = logsStoreGInt;
-
-            _mongoStore = mongoStore;
-            _elasticStore = elasticStore;
-        }
-        
-        //GN
-        //Class level
-        private readonly ILogsEFStoreG<LoggingDalEfInt, int> _logsEFStoreGInt;
-        //GN
-        //Method lvl
-        private readonly ILogsEFStoreG _logsStoreGMethod;
-        
-        //CoreSBBL.Logging.Models.DAL.TC
-        //TS via GN
-        //Method lvl
-        private readonly ILogsEFStore _logsStore;
-
-        // TS via GN
-        // class lvl
-        private readonly ILogsEFStoreGInt _logsStoreGInt;
+        private readonly ILogsServiceGeneric _logsServiceGeneric;
         
         private IMongoStore _mongoStore { get; }
         private IElasticStoreNest _elasticStore { get; }
         
-        public async Task<LogsBL> AddToAll(LogsBL item)
+        public LoggingService(ILogsServiceGeneric logsServiceGeneric)
         {
-            _logsStore.CreateDB();
+            _logsServiceGeneric = logsServiceGeneric;
+        }
+        
+        public async Task<LoggingResp> AddToAll(LoggingGenericBLAdd item)
+        {
+            await _logsServiceGeneric.CheckCreated();
+           
+            
+            var toAdd = new LoggingGenericBLAdd() { Message = item.Message, CreatedBy = "Default"};
+            var resp = await _logsServiceGeneric.AddItem(toAdd);
 
+            var secondItem = await _logsServiceGeneric.AddToSecond(toAdd);
+            
+            var toAddGuid = new LoggingGenericGuid() { Message = item.Message};
+            var respGuid = await _logsServiceGeneric.AddItem(toAddGuid);
+            
+            var ret = new LoggingGenericBLGetInt() {Id = resp.Id, Created = resp.Created, Modified = resp.Modified};
+
+            
+            return new LoggingResp(){name = "Ids added", id1 = resp?.Id, id2 = secondItem?.Id, id3 = respGuid?.Id} ;
+        }
+
+        public async Task<bool> RecreateDB()
+        {
+            await _logsServiceGeneric.RecreateDB2();
+            return await _logsServiceGeneric.RecreateDB();
+            
+        }
+
+        public async Task Add(LogsBL item)
+        {
             _mongoStore.CreateDB();
 
             _elasticStore.CreateDB();
 
             
             
-            //GN id Class level
-            LoggingDalEfInt _itemGN1 = new() {Message = item.Message};
-            var respG = await _logsEFStoreGInt.AddAsync(_itemGN1);
-            
-            //GN id method lvl
-            LoggingDalEfInt _itemGN3 = new() {Message = item.Message};
-            var respGi = await _logsStoreGMethod.AddAsync<LoggingDalEfInt,int>(_itemGN3);
-            
-            //TS via GN method lvl
-            LogsDALEf _item = new() {Message = item.Message};
-            var resp = await _logsStore.AddAsync(_item);
-            
-            //needed seperate model registration, inheritance err
-            // LogsDALEfGn _itemGN2 = new() {Message = item.Message};
-            // var respGint = await _logsStoreGInt.AddAsync(_itemGN2);
-            
-           
-                
             LogsMongo _itemMng = new () { Message = item.Message 
                 ,Label = new LabelMongo(){Text= "label 1" }
                 ,Tags = new List<TagMongo>(){new (){Text = "tag 1"},new (){Text = "tag 2"}}};
@@ -103,8 +82,6 @@ namespace CoreSBBL.Logging.Services
                 Console.WriteLine(e);
                 throw;
             }
-
-            return new LogsBL {Message = resp.Message + "  " + resp2.Message + "  " + _call.Message};
         }
     }
 }

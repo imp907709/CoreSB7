@@ -33,3 +33,9 @@ namespace CoreSBBL.Logging.Infrastructure.TS
     {
     }
 }
+
+
+namespace CoreSBBL.Logging.Infrastructure.Generic
+{
+    
+}
