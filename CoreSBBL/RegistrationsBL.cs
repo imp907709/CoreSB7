@@ -1,4 +1,5 @@
-﻿using CoreSBBL.Logging.Infrastructure.Generic;
+﻿using System;
+using CoreSBBL.Logging.Infrastructure.Generic;
 using CoreSBBL.Logging.Infrastructure.GN;
 using CoreSBBL.Logging.Infrastructure.TS;
 using CoreSBBL.Logging.Infrastructure.Mongo;
@@ -6,6 +7,8 @@ using CoreSBBL.Logging.Services;
 using CoreSBShared.Registrations;
 using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.EF.Store;
+using CoreSBShared.Universal.Infrastructure.HTTP;
+using CoreSBShared.Universal.Infrastructure.HTTP.MyApp.Services.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -103,6 +106,10 @@ namespace CoreSBBL
             builder.Services.AddScoped<ILoggingServiceNew, LoggingService>();
             
             builder.Services.AddScoped<ILogsServiceGeneric, LogsServiceGeneric>();
+            
+
+            builder.Services.AddHttpClient<IHttpService, HttpService>();
+            builder.Services.AddScoped<IHttpService, HttpService>();
         }
 
         internal static void RegisterMongoContexts(this WebApplicationBuilder builder)
