@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreSBBL.Logging.Infrastructure.EF;
 using CoreSBBL.Logging.Infrastructure.Generic;
 using CoreSBBL.Logging.Infrastructure.GN;
 using CoreSBBL.Logging.Infrastructure.TS;
@@ -36,7 +37,7 @@ namespace CoreSBBL
         /// </summary>
         public static void RegisterServicesBL(this WebApplicationBuilder builder)
         {
-            //RegisterEFStoresBL(builder);
+            RegisterEFStoresBL(builder);
             RegisterMongoStores(builder);
             RegisterServices(builder);
         }
@@ -65,16 +66,21 @@ namespace CoreSBBL
         internal static void RegisterEFContextsGenric(this WebApplicationBuilder builder)
         {
             builder.Services.AddDbContext<LogsContextGeneric>(options =>
-
                 options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
-                //options.UseSqlServer(ConnectionsRegister.Connections.DOCKERMSSQL));
+            
+            //options.UseSqlServer(ConnectionsRegister.Connections.DOCKERMSSQL));
             builder.Services.AddScoped<IEFStoreGeneric<LogsContextGeneric>, EFStoreGeneric<LogsContextGeneric>>();
 
             builder.Services.AddDbContext<LogsContextGeneric2>(options =>
-
-                options.UseSqlServer(ConnectionsRegister.Connections.MSSQLLOCAL));
+            options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
+            
             //options.UseSqlServer(ConnectionsRegister.Connections.DOCKERMSSQL));
             builder.Services.AddScoped<IEFStoreGeneric<LogsContextGeneric2>, EFStoreGeneric<LogsContextGeneric2>>();
+            
+            // test context
+            builder.Services.AddDbContext<TestContext>(o=>
+                o.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
+            builder.Services.AddScoped<IEFStoreGK<TestContext>, EFStoreGK<TestContext>>();
         }
         
         
@@ -86,6 +92,8 @@ namespace CoreSBBL
 
             // Interface for LogsEFStoreG<T, K>
             builder.Services.AddScoped(typeof(ILogsEFStoreG<,>), typeof(LogsEFStoreG<,>));
+            
+            builder.Services.AddScoped<ITestStore, TestStore>();
 
             // Interface for LogsEFStoreGInt
             builder.Services.AddScoped<ILogsEFStoreGInt, LogsEFStoreGInt>();
