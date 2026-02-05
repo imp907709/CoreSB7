@@ -2,6 +2,7 @@
 using CoreSBShared.Universal.Infrastructure.EF.Stores;
 using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Mongo;
+using CoreSBShared.Universal.Infrastructure.Rabbit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +23,9 @@ namespace CoreSBShared.Registrations
             builder.Configuration.GetSection(Connections.SectionName).Bind(ConnectionsRegister.Connections);
             builder.Configuration.GetSection(MongoConnection.SectionName).Bind(ConnectionsRegister.MongoConnection);
             builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
+            builder.Configuration.GetSection(RabbitConfig.SectionName).Bind(ConnectionsRegister.RabbitConfig);
         }
-
-
+        
 
         public static void RegisterServices(this WebApplicationBuilder builder)
         {
@@ -36,6 +37,7 @@ namespace CoreSBShared.Registrations
             //RegisterEFContexts(builder);
             RegisterMongoContexts(builder);
             RegisterElasticContexts(builder);
+            RegisterRabbit(builder);
         }
 
         /// <summary>
@@ -59,8 +61,16 @@ namespace CoreSBShared.Registrations
         {
             builder.Services.AddScoped<IElasticStoreNest>(p =>
             {
-                return new ElasticStoreNest(ConnectionsRegister.ElasticConenction.ConnectionString,
+                return new ElasticStoreNest(
+                    ConnectionsRegister.ElasticConenction.ConnectionString,
                     null);
+            });
+        }
+
+        internal static void RegisterRabbit(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IRabbitClient>(o => {
+                return new RabbitClient(ConnectionsRegister.RabbitConfig);
             });
         }
 
