@@ -24,6 +24,7 @@
     {
         public static string SectionName => RegistrationStrings.ElasticSectionName;
         public string? ConnectionString { get; set; }
+        public string? DefaultIndex { get; set; }
     }
 
 

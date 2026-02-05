@@ -9,9 +9,9 @@ namespace CoreSBBL.Logging.Infrastructure.EF;
 
 public class TestStore : ITestStore
 {
-    private IEFStoreGK<TestContext> _context;
+    private IEFStoreGeneric<TestContext> _context;
     
-    public TestStore(IEFStoreGK<TestContext> context)
+    public TestStore(IEFStoreGeneric<TestContext> context)
     {
         _context = context;
     }

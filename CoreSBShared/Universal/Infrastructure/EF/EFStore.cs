@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CoreSBShared.Universal.Infrastructure.EF.Stores;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -244,17 +245,17 @@ namespace CoreSBShared.Universal.Infrastructure.EF
 namespace CoreSBShared.Universal.Infrastructure.EF.Store
 {
     // most flexible and direct usage
-    public class EFStoreGeneric<TContext> 
-        : IEFStoreGeneric<TContext> where TContext : DbContext
+    public class EFStoreGK<TContext> 
+        : IEFStoreGK<TContext> where TContext : DbContext
     {
         private readonly TContext _context;
 
         public TContext GetContext() => _context;
 
-        public EFStoreGeneric()
+        public EFStoreGK()
         {}
 
-        public EFStoreGeneric(TContext context)
+        public EFStoreGK(TContext context)
         {
             _context = context;
         }
@@ -333,16 +334,15 @@ namespace CoreSBShared.Universal.Infrastructure.EF.Store
     }
 }
 
-
 namespace CoreSBShared.Universal.Infrastructure.EF.Store
 {
-    public class EFStoreGK<TContext> : IEFStoreGK<TContext> where TContext : DbContext
+    public class EFStoreGeneric<TContext> : IEFStoreGeneric<TContext> where TContext : DbContext
     {
         private readonly TContext _dbContext;
 
         public TContext GetContext() => _dbContext;
 
-        public EFStoreGK(TContext dbContext)
+        public EFStoreGeneric(TContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -369,7 +369,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF.Store
             return items;
         }
 
-        public async Task<IQueryable<T>> GetByFilterAsync<T, K>(Expression<Func<T, bool>> expression)
+        public IQueryable<T> GetByFilter<T, K>(Expression<Func<T, bool>> expression)
             where T : class, ICoreDal<K>
         {
             return _dbContext.Set<T>().Where(expression);

@@ -1,4 +1,5 @@
 ﻿using CoreSBShared.Universal.Infrastructure.EF;
+using CoreSBShared.Universal.Infrastructure.EF.Stores;
 using CoreSBShared.Universal.Infrastructure.Elastic;
 using CoreSBShared.Universal.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Builder;
@@ -58,7 +59,8 @@ namespace CoreSBShared.Registrations
         {
             builder.Services.AddScoped<IElasticStoreNest>(p =>
             {
-                return new ElasticStoreNest(null, null);
+                return new ElasticStoreNest(ConnectionsRegister.ElasticConenction.ConnectionString,
+                    null);
             });
         }
 

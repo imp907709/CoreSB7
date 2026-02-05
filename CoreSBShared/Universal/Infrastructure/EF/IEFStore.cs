@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreSBShared.Universal.Infrastructure.EF
+namespace CoreSBShared.Universal.Infrastructure.EF.Stores
 {
     //GN
     //class lvl
@@ -76,16 +76,13 @@ namespace CoreSBShared.Universal.Infrastructure.EF
     public interface IEFStoreInt : IEFStore<ICoreDalGnInt, int>
     {
     }
-}
 
-namespace CoreSBShared.Universal.Infrastructure.EF.Store
-{
     public interface IEFStoreCore<TContext> : IStore
         where TContext : DbContext
     {
     }
 
-    public interface IEFStoreGeneric<TContext>
+    public interface IEFStoreGK<TContext>
         where TContext : DbContext
     {
 
@@ -112,7 +109,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF.Store
 
 namespace CoreSBShared.Universal.Infrastructure.EF.Store
 {
-    public interface IEFStoreGK<TContext> where TContext : DbContext
+    public interface IEFStoreGeneric<TContext> where TContext : DbContext
     {
         Task<T> GetByIdAsync<T, K>(K id)
             where T : class, ICoreDal<K>;
@@ -123,7 +120,7 @@ namespace CoreSBShared.Universal.Infrastructure.EF.Store
         Task<IEnumerable<T>> AddManyAsync<T, K>(IEnumerable<T> items)
             where T : class, ICoreDal<K>;
 
-        Task<IQueryable<T>> GetByFilterAsync<T, K>(Expression<Func<T, bool>> expression)
+        IQueryable<T> GetByFilter<T, K>(Expression<Func<T, bool>> expression)
             where T : class, ICoreDal<K>;
 
         Task<T> UpdateAsync<T, K>(T item)

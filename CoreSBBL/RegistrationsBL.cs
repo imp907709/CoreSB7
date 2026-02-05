@@ -8,6 +8,7 @@ using CoreSBBL.Logging.Services;
 using CoreSBShared.Registrations;
 using CoreSBShared.Universal.Infrastructure.EF;
 using CoreSBShared.Universal.Infrastructure.EF.Store;
+using CoreSBShared.Universal.Infrastructure.EF.Stores;
 using CoreSBShared.Universal.Infrastructure.HTTP;
 using CoreSBShared.Universal.Infrastructure.HTTP.MyApp.Services.Http;
 using Microsoft.AspNetCore.Builder;
@@ -23,9 +24,9 @@ namespace CoreSBBL
         /// </summary>
         public static void RegisterContextsBL(this WebApplicationBuilder builder)
         {
-            // RegisterEFContextsTC(builder);
-            // RegisterEFContextsGC(builder);
-
+            
+            RegisterEFContextsGC(builder);
+            RegisterEFContextsTC(builder);
             RegisterEFContextsGenric(builder);
             
             RegisterMongoContexts(builder);
@@ -69,18 +70,18 @@ namespace CoreSBBL
                 options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
             
             //options.UseSqlServer(ConnectionsRegister.Connections.DOCKERMSSQL));
-            builder.Services.AddScoped<IEFStoreGeneric<LogsContextGeneric>, EFStoreGeneric<LogsContextGeneric>>();
+            builder.Services.AddScoped<IEFStoreGK<LogsContextGeneric>, EFStoreGK<LogsContextGeneric>>();
 
             builder.Services.AddDbContext<LogsContextGeneric2>(options =>
             options.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
             
             //options.UseSqlServer(ConnectionsRegister.Connections.DOCKERMSSQL));
-            builder.Services.AddScoped<IEFStoreGeneric<LogsContextGeneric2>, EFStoreGeneric<LogsContextGeneric2>>();
+            builder.Services.AddScoped<IEFStoreGK<LogsContextGeneric2>, EFStoreGK<LogsContextGeneric2>>();
             
             // test context
             builder.Services.AddDbContext<TestContext>(o=>
                 o.UseSqlServer(ConnectionsRegister.Connections.MSSQL));
-            builder.Services.AddScoped<IEFStoreGK<TestContext>, EFStoreGK<TestContext>>();
+            builder.Services.AddScoped<IEFStoreGeneric<TestContext>, EFStoreGeneric<TestContext>>();
         }
         
         
