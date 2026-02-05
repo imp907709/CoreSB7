@@ -23,7 +23,8 @@ namespace CoreSBShared.Registrations
             builder.Configuration.GetSection(Connections.SectionName).Bind(ConnectionsRegister.Connections);
             builder.Configuration.GetSection(MongoConnection.SectionName).Bind(ConnectionsRegister.MongoConnection);
             builder.Configuration.GetSection(ElasticConenction.SectionName).Bind(ConnectionsRegister.ElasticConenction);
-            builder.Configuration.GetSection(RabbitConfig.SectionName).Bind(ConnectionsRegister.RabbitConfig);
+            
+            builder.Services.Configure<RabbitConfig>(builder.Configuration.GetSection(RabbitConfig.SectionName));
         }
         
 
@@ -69,9 +70,7 @@ namespace CoreSBShared.Registrations
 
         internal static void RegisterRabbit(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IRabbitClient>(o => {
-                return new RabbitClient(ConnectionsRegister.RabbitConfig);
-            });
+            builder.Services.AddSingleton<IRabbitClient, RabbitClient>();
         }
 
         internal static void RegisterEFStores(this WebApplicationBuilder builder)

@@ -1,4 +1,5 @@
 ﻿using CoreSBShared.Registrations;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace CoreSBShared.Universal.Infrastructure.Rabbit;
@@ -6,42 +7,43 @@ namespace CoreSBShared.Universal.Infrastructure.Rabbit;
 public class RabbitClient : IRabbitClient
 {
     private RabbitConfig  _config;
-    private IConnection _connection;
-    private IChannel _cahannel;
+    private readonly IConnection _connection;
     
-    public RabbitClient(RabbitConfig config)
+    public RabbitClient(IOptions<RabbitConfig> options)
     {
-        _config = config;
+        _config = options.Value;
+        var fac = CreateConnFactory();
+        this._connection = fac.CreateConnectionAsync().GetAwaiter().GetResult();
     }
 
-    public async Task<IConnection> CreateConnection()
+    public IConnection GetConnection() => this._connection;
+
+    public ConnectionFactory CreateConnFactory()
     {
         ConnectionFactory fac = new ConnectionFactory()
         {
             UserName = _config.User,
             Password = _config.Password,
             HostName = _config.Host,
+            Port = _config.Port
         };
 
-        this._connection = await fac.CreateConnectionAsync();
-        return this._connection;
+        return fac;
     }
     
     public async Task<IChannel> ChannelOpen()
     {
-        this._cahannel = await this._connection.CreateChannelAsync();
-        return this._cahannel;
+        return await this._connection.CreateChannelAsync();
     }
 
-    public async Task Disconnect()
+    public async Task ChannelClose(IChannel channel)
     {
-        await this._cahannel.CloseAsync();
-        await this._connection.CloseAsync();
-        await this._cahannel.DisposeAsync();
-        await this._connection.DisposeAsync();
+        await channel.CloseAsync();
+        await channel.DisposeAsync();
     }
-    public async Task Init()
+
+    public bool IsConnected()
     {
-        await CreateConnection();
+        return this._connection?.IsOpen ?? false;
     }
 }

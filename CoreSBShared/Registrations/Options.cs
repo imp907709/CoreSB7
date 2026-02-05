@@ -34,10 +34,11 @@ namespace CoreSBShared.Registrations
         public static string SectionName => RegistrationStrings.RabbitSectionName;
         
         public string Host { get; set; }
-        public string Port { get; set; }
+        public int Port { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
     }
+    
     /// <summary>
     ///     Connections and vars from app settings register for option pattern
     /// </summary>
