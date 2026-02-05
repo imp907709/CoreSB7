@@ -199,7 +199,14 @@ DONE
     ]
     ~28h in 4d
 
+    <-06.09.2025 h1m50 -> project startups
+        < skipped > coreSB try to fix - multiple unknown issues
+        < done > core SB 7 start
+    
+    <-27.09.2025 3h -> generic store with multi id entities, and multi context service, 
+        all in one model with simplier registrations
 
+~23h50m in 6d
 ]
 
 STAT {
@@ -213,12 +220,12 @@ STAT {
 
         2024:
             02: ~0h
+
+        2025:
+            09: ~4h50m
     }
 
-    2025:
-    09: ~1h
-
-}~150h 45m in 58d
+}~155h 35m in 60d
 
 
 

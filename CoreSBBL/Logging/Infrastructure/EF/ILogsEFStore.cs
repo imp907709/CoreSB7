@@ -1,4 +1,5 @@
 ﻿using CoreSBShared.Universal.Infrastructure.EF;
+using CoreSBShared.Universal.Infrastructure.EF.Stores;
 using CoreSBShared.Universal.Infrastructure.Interfaces;
 
 namespace CoreSBBL.Logging.Infrastructure.TS

@@ -1,24 +1,24 @@
 ﻿using System.Threading.Tasks;
 using CoreSBBL.Logging.Services;
+using CoreSBShared.Universal.Infrastructure.HTTP.MyApp.Services.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreSBServer.Controllers
 {
     public class TestController : ControllerBase
     {
-        private ILoggingService _loggingService;
-
-        public TestController(ILoggingService loggingService)
-        {
-            _loggingService = loggingService;
+        private readonly IHttpService _http;
+        public TestController(IHttpService http) {
+            _http = http;
         }
 
         [HttpGet]
         [Route("test")]
         public async Task<ActionResult> Test()
         {
-            await Task.Delay(1);
-            return Ok("up and running");
+            var tsk = await Task.FromResult("up and running !!");
+            var resp = await _http.GetAsync<string>("https://api.restful-api.dev/objects");
+            return Ok(resp);
         }
     }
 }
