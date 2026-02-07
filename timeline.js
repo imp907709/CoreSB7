@@ -209,6 +209,11 @@ DONE
 ~23h50m in 6d
 ]
 
+CHECK : {
+    
+    <- 07.02.2026 -> 2h30m CHECK - LINQ, jn, gp bys
+}
+
 STAT {
 	
     years:{
