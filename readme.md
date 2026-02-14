@@ -5,7 +5,7 @@
  - 3 layered - API, Domain, Infrastructure | (API, BL, DAL)
  - dockerized
  - registrations and injections split from server wrapper
-
+ 
 ## Documentation
 - [Project Description](description.md) - Detailed overview and architecture
 - [Build and Run Commands](buildandrun.md) - EF and Docker commands
