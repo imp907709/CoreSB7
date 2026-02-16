@@ -214,6 +214,7 @@ CHECK : {
     <- 07.02.2026 -> 2h30m CHECK - LINQ, jn, gp bys
     <- 08.02.2026 -> 2h CHECK - refs, grp by
     <- 14.02.2026 -> 3h CHECK - refresh, LINQcancelation
+    <- 15.02.2026 -> 1h CHECK - tasks
 }
 
 STAT {
