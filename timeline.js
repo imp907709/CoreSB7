@@ -215,6 +215,8 @@ CHECK : {
     <- 08.02.2026 -> 2h CHECK - refs, grp by
     <- 14.02.2026 -> 3h CHECK - refresh, LINQcancelation
     <- 15.02.2026 -> 1h CHECK - tasks
+    <- 16.02.2026 -> 2h CHECK - long running tasks
+    <- 17.02.2026 -> 2h CHECK - long running tasks
 }
 
 STAT {
